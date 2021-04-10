@@ -1,39 +1,77 @@
 import React from 'react';
-import { Typography, CssBaseline, AppBar, Toolbar, Grid, Box } from '@material-ui/core';
+import { Typography, CssBaseline, AppBar, Toolbar, Grid, Box, Button, Icon, makeStyles } from '@material-ui/core';
 import { Receipt, Share } from '@material-ui/icons';
 
 
+const useStyles = makeStyles((theme) => ({
+  button: {
+    margin: theme.spacing(1),
+  },
+}));
+
 function App() {
+	const classes = useStyles();
+
 	return (
 		<>
 		<CssBaseline />
 		<AppBar position="relative">
 			<Toolbar>
-				{/* <Receipt align="center"/>			 */}
-				<Typography variant="h5" align="center">Bill Share </Typography>
-				{/* <Share align="center"/> */}
+				<Receipt/>			
+				<Typography variant="h5" align="center" justify="center">Bill Share </Typography>
+				<Share/>
 			</Toolbar>
 		</AppBar>
 
+		<Grid
+			container
+			spacing={0}
+			direction="column"
+			alignItems="center"
+			justify="center"
+			style={{ minHeight: '90vh' }}
+		>
 
-		<Grid container justify = "center">
-		<Box m="auto">
-		<Typography variant="h5">Profile</Typography>
-		<Typography variant="h5">New Bill</Typography>
-		<Typography variant="h5">Create Group</Typography>
-		<Typography variant="h5">Add Friends</Typography>
-			
-		</Box>
-		</Grid>
-		{/* <Box m="auto">
-			<Box m="auto">
-		<Typography variant="h5">Profile</Typography>
-		<Typography variant="h5">New Bill</Typography>
-		<Typography variant="h5">Create Group</Typography>
-		<Typography variant="h5">Add Friends</Typography>
-			</Box>
-		</Box> */}
+		<Grid item xs={3}>
+		<Button
+				variant="contained"
+				size="large"
+        color="primary"
+        className={classes.button}
+        // endIcon={<Icon>send</Icon>}
+      >
+        Profile
+      </Button>
+			<Button
+				variant="contained"
+				size="large"
+        color="primary"
+        className={classes.button}
+        // endIcon={<Icon>send</Icon>}
+      >
+        New Bill
+      </Button>
+			<Button
+				variant="contained"
+				size="large"
+        color="primary"
+        className={classes.button}
+        // endIcon={<Icon>send</Icon>}
+      >
+        Create Group
+      </Button>
+			<Button
+				variant="contained"
+				size="large"
+        color="primary"
+        className={classes.button}
+        // endIcon={<Icon>send</Icon>}
+      >
+        Add Friends
+      </Button>
+		</Grid>   
 
+		</Grid> 
 
 		</>
 	);
