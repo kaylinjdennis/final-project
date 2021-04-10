@@ -2,4 +2,4 @@
 .env.development
 .env.test
 
-node_modules/
+back_end/node_modules
