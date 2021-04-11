@@ -52,7 +52,7 @@ function App() {
 			</Grid>   
 		</Grid> 
 
-				{/* <Route exact path='/' component={App} /> */}
+				<Route exact path='/' />
         <Route path='/addbill' component={AddBill} />
         <Route path='/profile' component={Profile} />
 				<Route path='/creategroup' component={CreateGroup} />
