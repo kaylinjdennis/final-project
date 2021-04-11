@@ -51,6 +51,7 @@ function App() {
 				</Link>
 			</Grid>   
 		</Grid> 
+
 				{/* <Route exact path='/' component={App} /> */}
         <Route path='/addbill' component={AddBill} />
         <Route path='/profile' component={Profile} />
@@ -65,4 +66,4 @@ export default App;
 
 
 // endIcon={<Icon>send</Icon>}
-//for later
+//for later, if we want to add icons inside the buttons, or just use images maybe
