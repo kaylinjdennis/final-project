@@ -1,9 +1,15 @@
 import React from 'react';
+import { BrowserRouter, Route, } from 'react-router-dom';
 import { CssBaseline, Grid, Button } from '@material-ui/core';
+
 
 import useStyles from './styles'
 
 import Navbar from './Navbar'
+import CreateGroup from './CreateGroup'
+import AddBill from './AddBill'
+import Friends from './Friends'
+import Profile from './Profile'
 
 function App() {
 	const classes = useStyles();

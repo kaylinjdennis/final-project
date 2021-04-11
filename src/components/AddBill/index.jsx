@@ -6,7 +6,7 @@ function AddBill(props) {
 
   return (
     <>
-      <Typography variant="h3" align="center" justify="center"></Typography>
+      <Typography variant="h3" align="center" justify="center">Add a bill page/form</Typography>
     </>
   );
 }
