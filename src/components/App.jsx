@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Route, } from 'react-router-dom';
+import { BrowserRouter, Route, Link, NavLink } from 'react-router-dom';
 import { CssBaseline, Grid, Button } from '@material-ui/core';
 
 
@@ -16,6 +16,7 @@ function App() {
 
 	return (
 		<>
+		<BrowserRouter>
 		<CssBaseline />
 		<Navbar />
 
@@ -28,30 +29,40 @@ function App() {
 			style={{ minHeight: '90vh' }}
 		>
 			<Grid item xs={6}>
-				<Button variant="contained" color="primary" className={classes.button}
-					// endIcon={<Icon>send</Icon>}
-				>
+				<Link to="/profile" >
+					<Button variant="contained" color="primary" className={classes.button}>
 					Profile
 				</Button>
-				<Button variant="contained" color="primary" className={classes.button}
-					// endIcon={<Icon>send</Icon>}
-				>
+				</Link>
+				<Link to="/addbill">
+				<Button variant="contained" color="primary" className={classes.button}>
 					New Bill
 				</Button>
-				<Button variant="contained" color="primary" className={classes.button}
-					// endIcon={<Icon>send</Icon>}
-				>
+				</Link>
+				<Link to="/creategroup">
+				<Button variant="contained" color="primary" className={classes.button}>
 					Create Group
 				</Button>
-				<Button variant="contained" color="primary" className={classes.button}
-					// endIcon={<Icon>send</Icon>}
-				>
+				</Link>
+				<Link to="/friends">
+				<Button variant="contained" color="primary" className={classes.button}>
 					Add Friends
 				</Button>
+				</Link>
 			</Grid>   
 		</Grid> 
+				{/* <Route exact path='/' component={App} /> */}
+        <Route path='/addbill' component={AddBill} />
+        <Route path='/profile' component={Profile} />
+				<Route path='/creategroup' component={CreateGroup} />
+				<Route path='/friends' component={Friends} />
+		</BrowserRouter>
 		</>
 	);
 }
 
 export default App;
+
+
+// endIcon={<Icon>send</Icon>}
+//for later
