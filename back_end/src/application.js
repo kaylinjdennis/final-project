@@ -3,8 +3,10 @@ const path = require('path');
 
 const express = require('express');
 const bodyparser = require('body-parser');
+const cookieSession = require('cookie-session');
 const helmet = require('helmet');
 const cors = require('cors');
+const morgan = require('morgan');
 
 const app = express();
 
@@ -13,6 +15,8 @@ const db = require('./db');
 // Require individual routes here
 // Ex. const days = require('./routes/days');
 const user = require('./routes/user');
+const login = require('./routes/login');
+const logout = require('./routes/logout');
 
 function read(file) {
 	return new Promise((resolve, reject) => {
@@ -29,15 +33,28 @@ function read(file) {
 
 module.exports = function application(
 	ENV,
-	actions = { updateDatabase: () => { } }
+	actions = { updateUsers: () => { } }
 ) {
 	app.use(cors());
 	app.use(helmet());
 	app.use(bodyparser.json());
+	app.use(morgan('dev'));
+
+	app.set("view engine", "ejs");
+	app.use(express.static("public"));
+
+	app.use(cookieSession({
+		name: 'session',
+		keys: ['key1', 'key2'],
+		maxAge: 24 * 60 * 60 * 1000
+	}));
 
 	// Include routes here
 	// Ex. app.use('api', days(db));
-	app.use('api', user(db))
+	app.use('/api/user', user(db));
+	app.use('/api/login', login(db));
+	app.use('/api/logout', logout())
+
 
 	if (ENV === 'development' || ENV === 'test') {
 		Promise.all([

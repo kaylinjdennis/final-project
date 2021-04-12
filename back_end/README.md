@@ -22,7 +22,7 @@ PGPORT=5432
 
 ## Seeding
 
-Run a the development server with `npm start` in the Host environment. We are only using vagrant for `psql` this week.
+Run a the development server with `npm start` in the Host environment. We are only using vagrant for `psql`.
 
 Both of these achieve the same result.
 
@@ -44,6 +44,20 @@ npm run error
 ```
 
 ## Api
+
+### User
+
+`GET /api/user`
+
+Response
+
+```json
+{
+  "id": 1,
+  "name": "Jim Halpert",
+  "email": "jim@gmail.com"
+}
+```
 
 ### Days
 
