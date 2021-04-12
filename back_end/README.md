@@ -59,6 +59,36 @@ Response
 }
 ```
 
+`GET /api/user/friends`
+
+Response
+
+```json
+{
+  "current_friends": [],
+  "requests_recieved": [
+    {
+      "id": 2,
+      "friend_info": {
+        "id": 2,
+        "name": "Dwight Schrute",
+        "email": "dwight@gmail.com"
+      }
+    }
+  ],
+  "requests_sent": [
+    {
+      "id": 3,
+      "friend_info": {
+        "id": 3,
+        "name": "Michael Scott",
+        "email": "michael@gmail.com"
+      }
+    }
+  ]
+}
+```
+
 ### Days
 
 `GET /api/days`
