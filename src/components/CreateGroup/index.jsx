@@ -32,7 +32,7 @@ function CreateGroup(props) {
     };
 
     return (    
-        <Container component="main" maxWidth="xs">
+        <Container component="main" maxWidth="xs" >
           <div className={classes.paper}>
             <Avatar className={classes.icon}>
               <GroupAddIcon />
@@ -54,8 +54,13 @@ function CreateGroup(props) {
                     autoFocus
                   />
                </Grid> 
-              <Grid item xs={12} sm={12}>
-              <List dense className={classes.root}>
+
+              <Grid item xs={12} sm={12} className={classes.groupForm}>
+                <Typography component="h1" variant="subtitle1">
+                  Add friend(s) to group:
+                </Typography>
+
+                <List dense className={classes.root}>
                   {[0, 1, 2, 3].map((value) => {
                     const labelId = `checkbox-list-secondary-label-${value}`;
                     return (
