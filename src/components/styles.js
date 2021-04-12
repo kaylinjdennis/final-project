@@ -13,7 +13,31 @@ const useStyles = makeStyles((theme) => ({
     // minWidth: "sm"
     flexGrow: '2'
   },
-  
+  paper: {
+    marginTop: theme.spacing(8),
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+  icon: {
+    margin: theme.spacing(2),
+    backgroundColor: theme.palette.primary.main,
+  },
+  form: {
+    width: '100%', 
+    marginTop: theme.spacing(3),
+  },
+  submit: {
+    margin: theme.spacing(3, 0, 2),
+  },
+  root: {
+    width: '100%',
+    maxWidth: 360,
+    backgroundColor: theme.palette.background.paper,
+  },
+  friends: {
+    height: '100%'
+  }
 	
 }));
 

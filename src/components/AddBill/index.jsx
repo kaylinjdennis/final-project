@@ -1,6 +1,5 @@
 import React from 'react';
 import { Typography, Button, Container, TextField } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Avatar from '@material-ui/core/Avatar';
 import PostAddIcon from '@material-ui/icons/PostAdd';
