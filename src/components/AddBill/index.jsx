@@ -19,7 +19,7 @@ function AddBill(props) {
             <PostAddIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            ADD NEW BILL
+            Add New Bill
           </Typography>
           <form className={classes.form}>
             <Grid container spacing={2}>

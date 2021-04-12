@@ -6,7 +6,6 @@ import GroupAddIcon from '@material-ui/icons/GroupAdd';
 import useStyles from '../styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemIcon from '@material-ui/core/ListItemAvatar';
 import Checkbox from '@material-ui/core/Checkbox';
@@ -73,10 +72,8 @@ function CreateGroup(props) {
                         <ListItemAvatar>
                              <Avatar className={classes.friends}
                                 alt={`Avatar n°${value + 1}`}
-                                alt="Remy Sharp" src="https://i.pravatar.cc/300"
-                                alt="Travis Howard" src="https://i.pravatar.cc/300"
-                                alt="Cindy Baker" src="https://i.pravatar.cc/300" 
-                          />
+                                src="https://i.pravatar.cc/300"
+                            />
                         </ListItemAvatar>
                       </ListItem>
                     );
@@ -91,7 +88,7 @@ function CreateGroup(props) {
               color="primary"
               className={classes.submit}
             >
-             Submit
+              Submit
             </Button>
            </form>
           </div>
