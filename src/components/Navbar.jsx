@@ -22,9 +22,7 @@ function Navbar() {
 		<AppBar position="relative">
 			<Toolbar>
 				<Receipt/>			
-        <Link to="/">
         <Button variant="contained" color="primary" aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick} >Bill Share</Button>
-        </Link>
 				{/* <Share/> */}
 				<Menu
 					id="simple-menu"
