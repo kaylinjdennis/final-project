@@ -15,9 +15,7 @@ import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 function CreateGroup(props) {
 
     const classes = useStyles();
-
     const [checked, setChecked] = React.useState([1]);
-
     const handleToggle = (value) => () => {
       const currentIndex = checked.indexOf(value);
       const newChecked = [...checked];
@@ -54,12 +52,10 @@ function CreateGroup(props) {
                     autoFocus
                   />
                </Grid> 
-
               <Grid item xs={12} sm={12} className={classes.groupForm}>
                 <Typography component="h1" variant="subtitle1">
                   Add friend(s) to group:
                 </Typography>
-
                 <List dense className={classes.root}>
                   {[0, 1, 2, 3].map((value) => {
                     const labelId = `checkbox-list-secondary-label-${value}`;
