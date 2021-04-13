@@ -1,21 +1,45 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-
-import { Typography, AppBar, Toolbar, Button } from '@material-ui/core';
+import { AppBar, Toolbar, Button } from '@material-ui/core';
 import { Receipt, Share } from '@material-ui/icons';
-
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
 
 function Navbar() {
+
+  const [anchorEl, setAnchorEl] = React.useState(null);
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
 	return (
 		<>
 		<AppBar position="relative">
 			<Toolbar>
 				<Receipt/>			
         <Link to="/">
-				{/* <Typography variant="h5" align="center" justify="center">Bill Share </Typography> */}
-        <Button variant="contained" color="primary">Bill Share</Button>
+        <Button variant="contained" color="primary" aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick} >Bill Share</Button>
         </Link>
-				<Share/>
+				{/* <Share/> */}
+				<Menu
+					id="simple-menu"
+					anchorEl={anchorEl}
+					keepMounted
+					open={Boolean(anchorEl)}
+					onClose={handleClose}
+				>
+					<MenuItem onClick={handleClose} component={Link} to="/"> Home </MenuItem>
+					<MenuItem onClick={handleClose} component={Link} to="/profile"> Profile</MenuItem>
+					<MenuItem onClick={handleClose} component={Link} to="/addbill">Add New Bill</MenuItem>
+					<MenuItem onClick={handleClose} component={Link} to="/creategroup">Create Group</MenuItem>
+					<MenuItem onClick={handleClose} component={Link} to="/friends">Add Friends</MenuItem>
+					<MenuItem onClick={handleClose} component={Link} to="/logout">Logout</MenuItem>
+				</Menu>
 			</Toolbar>
 		</AppBar>
 		</>
