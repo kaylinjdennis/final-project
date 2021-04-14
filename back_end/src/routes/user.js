@@ -37,17 +37,23 @@ module.exports = (db) => {
 						[userID])
 						.then(data => {
 							const friends = data.rows;
-							console.log('friends:', friends);
-							console.log('users:', users)
 							const result = { current_friends: [], requests_recieved: [], requests_sent: [] }
 							for (const friend of friends) {
 								if (friend.confirmed) {
 									const friend_user_id = (friend.user_first_id === userID ? friend.user_second_id : friend.user_first_id)
 									result.current_friends.push({ id: friend.id, friend_info: users[friend_user_id] });
 								} else if (friend.user_first_id.toString() === userID) {
-									result.requests_sent.push({ id: friend.id, friend_info: users[friend.user_second_id] });
+									for (const user of users) {
+										if (user.id === friend.user_second_id) {
+											result.requests_sent.push({ id: friend.id, friend_info: user });
+										}
+									}
 								} else if (friend.user_second_id.toString() === userID) {
-									result.requests_recieved.push({ id: friend.id, friend_info: users[friend.user_first_id] });
+									for (const user of users) {
+										if (user.id === friend.user_first_id) {
+											result.requests_recieved.push({ id: friend.id, friend_info: user });
+										}
+									}
 								}
 							}
 							res.send(result);
@@ -62,6 +68,8 @@ module.exports = (db) => {
 			res.send({});
 		}
 	})
+
+	// router.post('/friends', (req, res) => )
 
 	// Get info for current users profile page (including groups, bills, friends etc)
 	// ----------------------------------------------------
