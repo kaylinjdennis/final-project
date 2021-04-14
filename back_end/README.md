@@ -89,22 +89,24 @@ Response
 }
 ```
 
-### Days
+### Bills
 
-`GET /api/days`
+`GET /api/bills/:id`
 
 Response
 
 ```json
-[
-  {
-    "id": 1,
-    "name": "Monday",
-    "appointments": [1, 2],
-    "interviewers": [1, 2],
-    "spots": 0
-  }
-]
+{
+  "id": 1,
+  "payee_id": 3,
+  "invoice_id": 1,
+  "paid": false,
+  "description": "Dinner Friday Night",
+  "cost": 25,
+  "created_at": "2021-04-09T06:00:00.000Z",
+  "poster_id": 1,
+  "group_id": 1
+}
 ```
 
 ### Appointments

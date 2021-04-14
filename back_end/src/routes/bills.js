@@ -46,7 +46,6 @@ module.exports = (db) => {
 		}
 	})
 
-
 	// Create new bill
 	router.post('/', (req, res) => {
 		const userID = req.session.user_id;
@@ -78,6 +77,33 @@ module.exports = (db) => {
 			})
 			.then(data => {
 				res.send(data);
+			})
+			.catch(err => {
+				res.status(500).json({ error: err.message })
+			})
+	})
+
+	// Get specified bill by id
+	router.get('/:id', (req, res) => {
+		const billID = req.params.id;
+		const query =
+			`
+			SELECT *
+			FROM bills
+			JOIN invoices ON invoice_id = invoices.id
+			WHERE bills.id = $1
+			`;
+		const values = [billID];
+
+		db.query(query, values)
+			.then(res => (res.rows[0]))
+			.then(bill => {
+				if (bill) {
+					res.send({ ...bill, id: Number(billID) });
+				} else {
+					res.send({});
+				}
+
 			})
 			.catch(err => {
 				res.status(500).json({ error: err.message })
