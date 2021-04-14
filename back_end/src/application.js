@@ -17,6 +17,8 @@ const db = require('./db');
 const user = require('./routes/user');
 const login = require('./routes/login');
 const logout = require('./routes/logout');
+const bills = require('./routes/bills');
+const groups = require('./routes/groups');
 
 function read(file) {
 	return new Promise((resolve, reject) => {
@@ -35,7 +37,7 @@ module.exports = function application(
 	ENV,
 	actions = { updateUsers: () => { } }
 ) {
-	app.use(cors());
+	// app.use(cors());
 	app.use(helmet());
 	app.use(bodyparser.json());
 	app.use(morgan('dev'));
@@ -53,7 +55,10 @@ module.exports = function application(
 	// Ex. app.use('api', days(db));
 	app.use('/api/user', user(db));
 	app.use('/api/login', login(db));
-	app.use('/api/logout', logout())
+	app.use('/api/logout', logout());
+	app.use('/api/bills', bills(db));
+	app.use('/api/groups', groups(db));
+
 
 
 	if (ENV === 'development' || ENV === 'test') {
