@@ -6,7 +6,7 @@ Install dependencies with `npm install`.
 
 ## Creating The DB
 
-Use the `psql -U development` command to login to the PostgreSQL server with the username `development` and the password `development`. This command **MUST** be run in a vagrant terminal, we are using the PostgreSQL installation provided in the vagrant environment.
+Use the `psql -U development` command to login to the PostgreSQL server with the username `development` and the password `development`.
 
 Create a database with the command `CREATE DATABASE final_development;`.
 
@@ -22,7 +22,7 @@ PGPORT=5432
 
 ## Seeding
 
-Run a the development server with `npm start` in the Host environment. We are only using vagrant for `psql`.
+Run a the development server with `npm start` in the Host environment.
 
 Both of these achieve the same result.
 
@@ -59,6 +59,14 @@ Response
 }
 ```
 
+`GET /api/user/:id`
+
+Response
+
+```json
+
+```
+
 `GET /api/user/friends`
 
 Response
@@ -89,7 +97,55 @@ Response
 }
 ```
 
+`POST /api/user/friends`
+
+Response
+
+```json
+
+```
+
 ### Bills
+
+`GET /api/bills/:type/:user_id`
+
+Response: type = posted
+
+```json
+[
+  {
+    "cost": 20,
+    "created_at": "2021-04-13T06:00:00.000Z",
+    "description": "Oscar's Birthday",
+    "group_id": 2,
+    "payee_id": 2,
+    "paid": false
+  }
+]
+```
+
+Response: type = recieved
+
+```json
+[
+  {
+    "cost": 25,
+    "created_at": "2021-04-09T06:00:00.000Z",
+    "description": "Dinner Friday Night",
+    "poster_id": 1,
+    "group_id": 1,
+    "paid": false
+  },
+  {
+    "cost": 37,
+    "created_at": "2021-03-10T07:00:00.000Z",
+    "description": "description",
+    "poster_id": 2,
+    "group_id": 1,
+    "paid": false
+  }
+]
+```
 
 `GET /api/bills/:id`
 
@@ -109,32 +165,11 @@ Response
 }
 ```
 
-### Appointments
+`DELETE /api/bills/:id`
 
-`GET /api/appointments`
+### Groups
 
-Response:
-
-```json
-{
-  "1": {
-    "id": 1,
-    "time": "12pm",
-    "interview": {
-      "student": "Lydia Miller-Jones",
-      "interviewer": 1
-    }
-  },
-  "2": {
-    "id": 2,
-    "time": "1pm",
-    "interview": {
-      "student": "Archie Cohen",
-      "interviewer": 2
-    }
-  }
-}
-```
+`POST /api/groups`
 
 `PUT /api/appointments/:id`
 
@@ -145,29 +180,6 @@ Body:
   "interview": {
     "student": String,
     "interviewer": Number
-  }
-}
-```
-
-`DELETE /api/appointments/:id`
-
-### Interviewers
-
-`GET /api/interviewers`
-
-Response:
-
-```json
-{
-  "1": {
-    "id": 1,
-    "name": "Sylvia Palmer",
-    "avatar": "https://i.imgur.com/LpaY82x.png"
-  },
-  "2": {
-    "id": 2,
-    "name": "Tori Malcolm",
-    "avatar": "https://i.imgur.com/Nmx0Qxo.png"
   }
 }
 ```
