@@ -92,11 +92,23 @@ const addMemberToGroup = (user_id, group_id, db) => {
 		});
 }
 
+const deleteBill = (billID, db) => {
+	const query = `DELETE FROM bills WHERE id = $1`;
+	const values = [billID]
+
+	return db.query(query, values)
+		.then(res => res.rows[0])
+		.catch(err => {
+			console.error('query error', err.stack);
+		});
+}
+
 module.exports = {
 	login,
 	createBill,
 	getGroupMembers,
 	createInvoice,
 	createGroup,
-	addMemberToGroup
+	addMemberToGroup,
+	deleteBill
 }

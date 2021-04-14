@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const { createBill, getGroupMembers, createInvoice } = require('./helperFunctions');
+const { createBill, getGroupMembers, createInvoice, deleteBill } = require('./helperFunctions');
 
 module.exports = (db) => {
 
@@ -92,6 +92,46 @@ module.exports = (db) => {
 			FROM bills
 			JOIN invoices ON invoice_id = invoices.id
 			WHERE bills.id = $1
+			`;
+		const values = [billID];
+
+		db.query(query, values)
+			.then(res => (res.rows[0]))
+			.then(bill => {
+				if (bill) {
+					res.send({ ...bill, id: Number(billID) });
+				} else {
+					res.send({});
+				}
+
+			})
+			.catch(err => {
+				res.status(500).json({ error: err.message })
+			})
+	})
+
+	// Delete bill
+	router.delete('/:id', (req, res) => {
+		const billID = req.params.id;
+
+		deleteBill(billID, db)
+			.then(bill => {
+				res.send(bill);
+			})
+			.catch(err => {
+				console.error(err);
+				res.send(err);
+			});
+	})
+
+
+
+	// Edit bill
+	router.post('/:id', (req, res) => {
+		const billID = req.params.id;
+		const query =
+			`
+			
 			`;
 		const values = [billID];
 
