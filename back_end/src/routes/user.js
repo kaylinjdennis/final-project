@@ -69,15 +69,17 @@ module.exports = (db) => {
 		}
 	})
 
-	// router.post('/friends', (req, res) => )
+	// router.post('/friends', (req, res) => 
+
+	// )}
 
 	// Get info for current users profile page (including groups, bills, friends etc)
 	// ----------------------------------------------------
 	// ADD LOGIC INTO THIS FUNCTION!!!!!
 	// ----------------------------------------------------
 	router.get('/:id', (req, res) => {
-		const userID = req.session.user_id;
-		if (userID) {
+		const userID = req.params.id;
+		if (req.session.user_id === userID) {
 			db.query(`SELECT * FROM users WHERE id = $1;`, [userID])
 				.then(data => {
 					const users = data.rows[0];

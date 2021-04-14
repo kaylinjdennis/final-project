@@ -5,7 +5,6 @@ const express = require('express');
 const bodyparser = require('body-parser');
 const cookieSession = require('cookie-session');
 const helmet = require('helmet');
-const cors = require('cors');
 const morgan = require('morgan');
 
 const app = express();
@@ -37,7 +36,6 @@ module.exports = function application(
 	ENV,
 	actions = { updateUsers: () => { } }
 ) {
-	// app.use(cors());
 	app.use(helmet());
 	app.use(bodyparser.json());
 	app.use(morgan('dev'));
@@ -52,14 +50,11 @@ module.exports = function application(
 	}));
 
 	// Include routes here
-	// Ex. app.use('api', days(db));
 	app.use('/api/user', user(db));
 	app.use('/api/login', login(db));
 	app.use('/api/logout', logout());
 	app.use('/api/bills', bills(db));
 	app.use('/api/groups', groups(db));
-
-
 
 	if (ENV === 'development' || ENV === 'test') {
 		Promise.all([

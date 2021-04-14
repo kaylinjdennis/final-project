@@ -30,8 +30,6 @@ function updateUsers(id, newUser) {
 	});
 }
 
-
-
 server.listen(PORT, () => {
 	console.log(`Listening on port ${PORT} in ${ENV} mode.`);
 });

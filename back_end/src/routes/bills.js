@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const { createBill, getGroupMembers, createInvoice, deleteBill } = require('./helperFunctions');
+const { createBill, getGroupMembers, createInvoice, deleteBill, editBill, editInvoice } = require('./helperFunctions');
 
 module.exports = (db) => {
 
@@ -115,36 +115,19 @@ module.exports = (db) => {
 		const billID = req.params.id;
 
 		deleteBill(billID, db)
-			.then(bill => {
-				res.send(bill);
-			})
-			.catch(err => {
-				console.error(err);
-				res.send(err);
+			.then(() => {
+				res.status(204).json({});
 			});
 	})
-
-
 
 	// Edit bill
 	router.post('/:id', (req, res) => {
 		const billID = req.params.id;
-		const query =
-			`
-			
-			`;
-		const values = [billID];
+		const updatedValues = req.body;
 
-		db.query(query, values)
-			.then(res => (res.rows[0]))
-			.then(bill => {
-				if (bill) {
-					res.send({ ...bill, id: Number(billID) });
-				} else {
-					res.send({});
-				}
-
-			})
+		editBill(billID, updatedValues, db)
+			.then(res => editInvoice(res.invoice_id, updatedValues, db))
+			.then(bill => res.send(bill))
 			.catch(err => {
 				res.status(500).json({ error: err.message })
 			})
@@ -152,3 +135,5 @@ module.exports = (db) => {
 
 	return router;
 };
+
+

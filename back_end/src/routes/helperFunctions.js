@@ -103,6 +103,47 @@ const deleteBill = (billID, db) => {
 		});
 }
 
+const editBill = (billID, updatedValues, db) => {
+	let query = `UPDATE bills `;
+	const values = [];
+
+	if (updatedValues.paid) {
+		values.push(updatedValues.paid);
+		query += `SET paid = $1`;
+	}
+
+	values.push(billID);
+	query += ` WHERE id = $2 RETURNING *;`;
+
+	return db.query(query, values)
+		.then(res => res.rows[0])
+		.catch(err => console.error('query error', err.stack));
+}
+
+const editInvoice = (invoice_id, updatedValues, db) => {
+	let query = `UPDATE invoices `;
+	const values = [];
+	const propertiesToUpdate = ['description', 'cost'];
+
+	for (let property of propertiesToUpdate) {
+		if (updatedValues[property]) {
+			values.push(updatedValues[property]);
+			if (values.length > 1) {
+				query += `, ${property} = $${values.length}`;
+			} else {
+				query += `SET ${property} = $${values.length}`;
+			}
+		}
+	}
+
+	values.push(invoice_id);
+	query += ` WHERE id = $${values.length}  RETURNING *;`;
+
+	return db.query(query, values)
+		.then(res => res.rows[0])
+		.catch(err => console.error('query error', err.stack));
+}
+
 module.exports = {
 	login,
 	createBill,
@@ -110,5 +151,7 @@ module.exports = {
 	createInvoice,
 	createGroup,
 	addMemberToGroup,
-	deleteBill
+	deleteBill,
+	editBill,
+	editInvoice
 }
