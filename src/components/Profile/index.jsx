@@ -33,13 +33,24 @@ return (
         <Avatar className={classes.icon}>
           <AccountBoxIcon />
         </Avatar>
-        <Typography component="h1" variant="h4">
+        <Typography component="h1" variant="h5">
           Profile
         </Typography>
-        <Divider/>
+
         <Grid container alignItems='center' spacing={2} direction='row'>
           <Grid container alignItems='center' item xs={12} sm={12}>
-            <Typography component="h1" variant="h5">
+            <Typography component="h1" variant="button">
+              Total $ Owed
+            </Typography>
+          </Grid>
+
+          <Grid container alignItems='center' item xs={12} sm={12}>
+            <Typography component="h1" variant="button">
+              Total $ Due
+            </Typography>
+          </Grid>
+          <Grid container alignItems='center' item xs={12} sm={12}>
+            <Typography component="h1" variant="button">
             <FileCopyIcon fontSize='large'/> Bills Created 
             </Typography>
             <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
@@ -57,7 +68,7 @@ return (
             </Menu>
           </Grid>
           <Grid container alignItems='center' item xs={12} sm={12}>
-            <Typography component="h1" variant="h5">
+            <Typography component="h1" variant="button">
             < MonetizationOnIcon fontSize='large' /> Bills To Pay
             </Typography>
             <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
@@ -76,7 +87,7 @@ return (
           </Grid>
        
           <Grid container alignItems='flex-end' item xs={12} sm={12}>
-            <Typography component="h1" variant="h5">
+            <Typography component="h1" variant="button">
             <GroupIcon fontSize='large'/> Groups Part Of
             </Typography>
             <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
