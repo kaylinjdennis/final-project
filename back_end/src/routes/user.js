@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 
+const { findUserByEmail, sendFriendRequest, acceptFriendRequest } = require('./helperFunctions');
+
 module.exports = (db) => {
 
 	// Get current users information
@@ -40,8 +42,12 @@ module.exports = (db) => {
 							const result = { current_friends: [], requests_recieved: [], requests_sent: [] }
 							for (const friend of friends) {
 								if (friend.confirmed) {
-									const friend_user_id = (friend.user_first_id === userID ? friend.user_second_id : friend.user_first_id)
-									result.current_friends.push({ id: friend.id, friend_info: users[friend_user_id] });
+									const friend_user_id = (friend.user_first_id === Number(userID) ? friend.user_second_id : friend.user_first_id)
+									for (const user of users) {
+										if (user.id === friend_user_id) {
+											result.current_friends.push({ id: friend.id, friend_info: user });
+										}
+									}
 								} else if (friend.user_first_id.toString() === userID) {
 									for (const user of users) {
 										if (user.id === friend.user_second_id) {
@@ -69,9 +75,28 @@ module.exports = (db) => {
 		}
 	})
 
-	// router.post('/friends', (req, res) => 
+	router.post('/friends', (req, res) => {
+		const type = req.body.type;
+		const userID = req.session.user_id;
 
-	// )}
+		if (type === 'sending') {
+			const friendEmail = req.body.friend_info.email;
+			findUserByEmail(friendEmail, db)
+				.then(res => sendFriendRequest(userID, res.id, db))
+				.then(data => res.send(data))
+				.catch(err => {
+					res.status(500).json({ error: err.message })
+				})
+
+		} else if (type === 'accepting') {
+			const friendID = req.body.friend_info.id
+			acceptFriendRequest(Number(userID), friendID, db)
+				.then(data => res.send(data))
+				.catch(err => {
+					res.status(500).json({ error: err.message })
+				})
+		}
+	})
 
 	// Get info for current users profile page (including groups, bills, friends etc)
 	// ----------------------------------------------------

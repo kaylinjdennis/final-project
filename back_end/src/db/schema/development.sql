@@ -2,7 +2,8 @@ INSERT INTO users (name, email, password)
 VALUES 
 	('Jim Halpert', 'jim@gmail.com', 'scranton'),
 	('Dwight Schrute', 'dwight@gmail.com', 'beets'),
-	('Michael Scott', 'michael@gmail.com', 'office');
+	('Michael Scott', 'michael@gmail.com', 'office'),
+	('Pam', 'pam@gmail.com', 'jim');
 
 INSERT INTO groups (name) 
 VALUES
@@ -31,8 +32,7 @@ VALUES
 	(1, 3),
 	(3, 3);
 
-INSERT INTO friends (user_first_id, user_second_id)
-VALUES
-	(1, 2),
-	(1, 3),
-	(3, 2);
+-- INSERT INTO friends (user_first_id, user_second_id)
+-- VALUES
+-- 	(1, 2),
+-- 	(3, 2);

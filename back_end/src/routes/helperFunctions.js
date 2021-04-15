@@ -1,4 +1,5 @@
 const bcrypt = require('bcrypt');
+const user = require('./user');
 
 const login = (email, password, db) => {
 	const query = `SELECT * FROM users WHERE email = $1`;
@@ -99,7 +100,7 @@ const deleteBill = (billID, db) => {
 	return db.query(query, values)
 		.then(res => res.rows[0])
 		.catch(err => {
-			console.error('query error', err.stack);
+			console.error('QUERY ERROR:\n', err.stack);
 		});
 }
 
@@ -117,7 +118,7 @@ const editBill = (billID, updatedValues, db) => {
 
 	return db.query(query, values)
 		.then(res => res.rows[0])
-		.catch(err => console.error('query error', err.stack));
+		.catch(err => console.error('QUERY ERROR:\n', err.stack));
 }
 
 const editInvoice = (invoice_id, updatedValues, db) => {
@@ -141,8 +142,48 @@ const editInvoice = (invoice_id, updatedValues, db) => {
 
 	return db.query(query, values)
 		.then(res => res.rows[0])
-		.catch(err => console.error('query error', err.stack));
+		.catch(err => console.error('QUERY ERROR:\n', err.stack));
 }
+
+const findUserByEmail = (email, db) => {
+	const query = `SELECT id FROM users WHERE email = $1`;
+	const values = [email];
+
+	return db.query(query, values)
+		.then(res => res.rows[0])
+		.catch(err => console.error('QUERY ERROR:\n', err.stack));
+}
+
+const sendFriendRequest = (userID, friendID, db) => {
+	const query =
+		`
+	INSERT INTO friends (user_first_id, user_second_id)
+	VALUES ($1, $2)
+	RETURNING *;
+	`;
+	const values = [userID, friendID];
+
+	return db.query(query, values)
+		.then(res => res.rows[0])
+		.catch(err => console.error('QUERY ERROR:\n', err.stack));
+}
+
+const acceptFriendRequest = (userID, friendID, db) => {
+	const query =
+		`
+		UPDATE friends
+		SET confirmed = true
+		WHERE user_first_id = $1 AND user_second_id = $2
+		RETURNING *;
+		`;
+	const values = [friendID, userID];
+
+	return db.query(query, values)
+		.then(res => res.rows[0])
+		.catch(err => console.error('QUERY ERROR:\n', err.stack));
+}
+
+
 
 module.exports = {
 	login,
@@ -153,5 +194,8 @@ module.exports = {
 	addMemberToGroup,
 	deleteBill,
 	editBill,
-	editInvoice
+	editInvoice,
+	findUserByEmail,
+	sendFriendRequest,
+	acceptFriendRequest
 }
