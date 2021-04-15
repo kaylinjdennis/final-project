@@ -13,6 +13,25 @@ import MonetizationOnIcon from '@material-ui/icons/MonetizationOn';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import Divider from '@material-ui/core/Divider';
 
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  ReferenceLine
+} from "recharts";
+
+const data = [
+  {
+    name: 'Your Totals',
+    Owed: 300,
+    Owing: -500
+  }
+];
+
 function Profile(props) {
 
 const classes = useStyles();
@@ -36,6 +55,27 @@ return (
         <Typography component="h1" variant="h5">
           Profile
         </Typography>
+
+        <BarChart
+            width={300}
+            height={300}
+            data={data}
+            margin={{
+              top: 5,
+              right: 5,
+              left: 5,
+              bottom: 5
+            }}
+          >
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="name" />
+            <YAxis />
+            <Tooltip />
+            <Legend />
+            <ReferenceLine y={0} stroke="#000" />
+            <Bar dataKey="Owed" fill="#8884d8" />
+            <Bar dataKey="Owing" fill="#82ca9d" />
+          </BarChart>
 
         <Grid container alignItems='center' spacing={2} direction='row'>
           <Grid container alignItems='center' item xs={12} sm={12}>
