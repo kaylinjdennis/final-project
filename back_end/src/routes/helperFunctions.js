@@ -1,5 +1,4 @@
 const bcrypt = require('bcrypt');
-const user = require('./user');
 
 const login = (email, password, db) => {
 	const query = `SELECT * FROM users WHERE email = $1`;
@@ -183,6 +182,60 @@ const acceptFriendRequest = (userID, friendID, db) => {
 		.catch(err => console.error('QUERY ERROR:\n', err.stack));
 }
 
+const getUserInfo = (userID, db) => {
+	const query =
+		`
+		SELECT id, name, email FROM users
+		WHERE id = $1
+		`;
+	const values = [userID];
+
+	return db.query(query, values)
+		.then(res => res.rows[0])
+		.catch(err => console.error('QUERY ERROR:\n', err.stack));
+}
+
+const getPostedBills = (userID, db) => {
+	const query =
+		`
+		SELECT invoices.cost, invoices.created_at, invoices.description, invoices.group_id, bills.payee_id, bills.paid
+		FROM bills
+		JOIN invoices ON invoice_id = invoices.id
+		WHERE invoices.poster_id = $1;
+		`;
+	const values = [userID];
+	return db.query(query, values)
+		.then(res => res.rows)
+		.catch(err => console.error('QUERY ERROR:\n', err.stack));
+}
+
+const getRecievedBills = (userID, db) => {
+	const query =
+		`
+		SELECT invoices.cost, invoices.created_at, invoices.description, invoices.poster_id, invoices.group_id, bills.paid
+		FROM bills
+		JOIN invoices ON invoice_id = invoices.id
+		WHERE payee_id = $1;
+		`;
+	const values = [userID];
+
+	return db.query(query, values)
+		.then(res => res.rows)
+		.catch(err => console.error('QUERY ERROR:\n', err.stack));
+}
+
+const getTotalOwed = (userID, db) => {
+	const query =
+		`
+		SELECT id, name, email FROM users
+		WHERE id = $1
+		`;
+	const values = [userID];
+
+	return db.query(query, values)
+		.then(res => res.rows[0])
+		.catch(err => console.error('QUERY ERROR:\n', err.stack));
+}
 
 
 module.exports = {
@@ -197,5 +250,9 @@ module.exports = {
 	editInvoice,
 	findUserByEmail,
 	sendFriendRequest,
-	acceptFriendRequest
+	acceptFriendRequest,
+	getUserInfo,
+	getPostedBills,
+	getRecievedBills,
+	getTotalOwed
 }

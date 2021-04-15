@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const { createBill, getGroupMembers, createInvoice, deleteBill, editBill, editInvoice } = require('./helperFunctions');
+const { createBill, getGroupMembers, createInvoice, deleteBill, editBill, editInvoice, getPostedBills, getRecievedBills } = require('./helperFunctions');
 
 module.exports = (db) => {
 
@@ -10,39 +10,19 @@ module.exports = (db) => {
 		const type = req.params.type;
 		const userID = req.params.user_id;
 		if (type === 'posted') {
-			const query =
-				`
-				SELECT invoices.cost, invoices.created_at, invoices.description, invoices.group_id, bills.payee_id, bills.paid
-				FROM bills
-				JOIN invoices ON invoice_id = invoices.id
-				WHERE invoices.poster_id = $1;
-			`;
-			const values = [userID];
-			db.query(query, values)
-				.then(data => {
-					const bills = data.rows
-					res.send(bills);
-				})
+			getPostedBills(userID, db)
+				.then(data => res.send(data))
 				.catch(err => {
 					res.status(500).json({ error: err.message })
 				})
-		} else if (type === 'recieved') {
-			const query =
-				`
-					SELECT invoices.cost, invoices.created_at, invoices.description, invoices.poster_id, invoices.group_id, bills.paid
-					FROM bills
-					JOIN invoices ON invoice_id = invoices.id
-					WHERE payee_id = $1;
-				`;
-			const values = [userID];
-			db.query(query, values)
-				.then(data => {
-					const bills = data.rows
-					res.send(bills);
-				})
+		} else if (type === 'received') {
+			getRecievedBills(userID, db)
+				.then(data => res.send(data))
 				.catch(err => {
 					res.status(500).json({ error: err.message })
 				})
+		} else {
+			res.send({});
 		}
 	})
 
