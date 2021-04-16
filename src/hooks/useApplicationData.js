@@ -8,7 +8,8 @@ export default function useApplicationData() {
 		user: '',
 		bills: [],
 		groups: [],
-		friends: []
+		friends: [],
+		friend_requests: []
 	})
 
 	useEffect(() => {
@@ -24,6 +25,14 @@ export default function useApplicationData() {
 			.then(res => res.current_friends)
 			.then((res) => {
 				setState(prev => ({ ...prev, friends: res }));
+			})
+			.catch(err => {
+				console.log(err)
+			});
+		getPendingFriendRequests()
+			.then(res => res.requests_recieved)
+			.then((res) => {
+				setState(prev => ({ ...prev, friends_requests: res }));
 			})
 			.catch(err => {
 				console.log(err)
@@ -57,6 +66,16 @@ export default function useApplicationData() {
 			})
 	}
 
+	const getPendingFriendRequests = () => {
+		return axios.get('/api/user/friends')
+			.then(res => {
+				return setState(prev => ({
+					...prev,
+					friend_requests: res.data.requests_recieved
+				}))
+			})
+	}
+
 	const createBill = (cost, description, group_id) => {
 		const bill = { "cost": cost, "description": String(description), "group_id": group_id };
 
@@ -80,7 +99,27 @@ export default function useApplicationData() {
 			})
 	}
 
-	return { state, setState, createBill, getUser, getUsersGroups, createGroup, getUsersCurrentFriends };
+	const sendFriendRequest = (email) => {
+		return axios.post('/api/user/friends', { "friend_info": { "email": email }, "type": "sending" })
+			.then(res => {
+				setState(prev => ({
+					...prev,
+					friends: { ...prev.friends, res }
+				}))
+			})
+	}
+
+	const acceptFriendRequest = (friendInfo) => {
+		return axios.post('/api/user/friends', { "friend_info": { "email": friendInfo.email, "id": friendInfo.id, "name": friendInfo.id }, "type": "accepting" })
+			.then(res => {
+				setState(prev => ({
+					...prev,
+					friends: { ...prev.friends, res }
+				}))
+			})
+	}
+
+	return { state, setState, createBill, getUser, getUsersGroups, createGroup, sendFriendRequest, acceptFriendRequest };
 }
 // export default function useApplicationData() {
 // 	const [state, setState] = useState({

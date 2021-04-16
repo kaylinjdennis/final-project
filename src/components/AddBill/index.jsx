@@ -8,10 +8,11 @@ import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
 import useStyles from '../styles';
 
+
+
 import useApplicationData from '../../hooks/useApplicationData'
 
 import { useState } from 'react';
-
 
 function AddBill(props) {
 	const { state, createBill } = useApplicationData()
@@ -19,6 +20,10 @@ function AddBill(props) {
 	const [cost, setCost] = useState(0);
 	const [groupId, setGroupId] = useState(undefined);
 	const classes = useStyles();
+
+	const handleClick = (event) => {
+		createBill(cost, description, groupId)
+	}
 
 	const groups = state.groups.map(group => {
 		return (
@@ -89,9 +94,9 @@ function AddBill(props) {
             variant="contained"
             color="primary"
 						className={classes.submit}
-						onClick={() => {createBill(cost, description, groupId)}}
+						onClick={handleClick}
           >
-           Submit
+						Submit
           </Button>
          </form>
         </div>
