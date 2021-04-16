@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Typography, Container, Grid, Toolbar, TextField } from '@material-ui/core';
+import { Typography, Container, Grid, Toolbar, TextField, Button } from '@material-ui/core';
 import { makeStyles, fade } from '@material-ui/core/styles'
 
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
@@ -47,23 +47,30 @@ function Friends(props) {
           // justify="space-around"
           // style={{ minHeight: '90vh' }}
         >
-          <Typography>Search for a friend!</Typography>
+
         <Grid item xs={12}>
 
+          <br />
+
         <Toolbar>
+          <form>
           <div className={classes.searchContainer}>
             <PersonAddIcon className={classes.searchIcon} />
             <TextField
               className={classes.searchInput}
               onChange={handleSearchChange}
-              label="Search"
+              label="Search for a friend!"
               variant="standard"
             />
+          <Button color="secondary" size="small" type="submit">Submit</Button>
           </div>
+          </form>
         </Toolbar>
 
+        <br />
+
         <div>
-          <Typography>Results: </Typography>
+          <Typography variant="h4">Results: </Typography>
           <Typography>*</Typography>
         </div>
 
@@ -71,12 +78,12 @@ function Friends(props) {
 
           
           </Grid> 
-          <Typography>Your friend requests:</Typography>  
+          <Typography variant="h4">Your friend requests:</Typography>  
 
 
           <br />
 
-          <Typography>Friends list:</Typography>  
+          <Typography variant="h4">Friends list:</Typography>  
           
 
 
@@ -93,16 +100,3 @@ function Friends(props) {
 }
 
 export default Friends;
-
-
-// useEffect(() => {
-//   const groupsURL = `/api/groups`; //or whatever the url is
-//   axios.get(groupsURL)
-  
-//     .then((data) => {
-//       setState(prev => ({...prev, groups: data}));
-//     })
-//     .catch(err => {
-//       console.log(err)
-//     });
-// }, []);
