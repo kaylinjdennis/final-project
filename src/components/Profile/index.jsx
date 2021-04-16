@@ -52,11 +52,10 @@ return (
         <Avatar className={classes.icon}>
           <AccountBoxIcon />
         </Avatar>
-        <Typography component="h1" variant="h5">
+        <Typography className={classes.heading} component="h1" variant="h5">
           Profile
         </Typography>
-
-        <BarChart
+        <BarChart className={classes.barchart}
             width={300}
             height={300}
             data={data}
@@ -78,17 +77,6 @@ return (
           </BarChart>
 
         <Grid container alignItems='center' spacing={2} direction='row'>
-          <Grid container alignItems='center' item xs={12} sm={12}>
-            <Typography component="h1" variant="button">
-              Total $ Owed
-            </Typography>
-          </Grid>
-
-          <Grid container alignItems='center' item xs={12} sm={12}>
-            <Typography component="h1" variant="button">
-              Total $ Due
-            </Typography>
-          </Grid>
           <Grid container alignItems='center' item xs={12} sm={12}>
             <Typography component="h1" variant="button">
             <FileCopyIcon fontSize='large'/> Bills Created 
