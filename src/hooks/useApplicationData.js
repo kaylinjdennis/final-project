@@ -42,7 +42,7 @@ export default function useApplicationData() {
 	}
 
 	const createBill = (cost, description, group_id) => {
-		const bill = { cost: cost, description: description, group_id: group_id };
+		const bill = { "cost": cost, "description": String(description), "group_id": group_id };
 		const bills = { ...state.bills, bill };
 
 		return axios.post('/api/bills', bill)

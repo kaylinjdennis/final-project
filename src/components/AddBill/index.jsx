@@ -10,30 +10,20 @@ import useStyles from '../styles';
 
 import useApplicationData from '../../hooks/useApplicationData'
 
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 
 
 
 function AddBill(props) {
-	const { state, setState, getUsersGroups } = useApplicationData()
+	const { state, setState, createBill } = useApplicationData()
+	const [description, setDescription] = useState('');
+	const [cost, setCost] = useState(0);
+	const [groupId, setGroupId] = useState(undefined);
 	const classes = useStyles();
-  
-  // useEffect(() => {
-  //   getUsersGroups()
-	// 		.then(res => res.name)
-  //     .then((data) => {
-  //       setState(prev => ({...prev, groups: data}));
-  //     })
-  //     .catch(err => {
-  //       console.log(err)
-  //     });
-  // }, []);
 
-	console.log('groups:', state.groups.data);
-	
 	const groups = state.groups.map(group => {
 		return (
-			<option> {group.name} </option>
+			<option value={group.id} > {group.name} </option>
 		);
 		});
 
@@ -57,7 +47,8 @@ function AddBill(props) {
                   fullWidth
                   id="billDescription"
                   label="Description"
-                  autoFocus
+									autoFocus
+									onChange={(event) => setDescription(event.target.value)}
                 />
              </Grid> 
             <Grid item xs={12} sm={12}>
@@ -69,7 +60,8 @@ function AddBill(props) {
                 fullWidth
                 id="billCost"
                 label="Cost"
-                autoFocus
+								autoFocus
+								onChange={(event) => setCost(event.target.value)}
               />
             </Grid> 
             <Grid item xs={12} sm={12}>
@@ -91,7 +83,8 @@ function AddBill(props) {
                   inputProps={{
                   name: 'group',
                   id: 'outlined-group-native-simple',
-                  }}
+									}}
+									onChange={(event) => setGroupId(event.target.value)}
                 >
                 <option aria-label="None" value="" />
 								{groups}
@@ -107,7 +100,8 @@ function AddBill(props) {
             fullWidth
             variant="contained"
             color="primary"
-            className={classes.submit}
+						className={classes.submit}
+						onClick={() => {createBill(cost, description, groupId)}}
           >
            Submit
           </Button>
