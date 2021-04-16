@@ -8,9 +8,23 @@ import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
 import useStyles from '../styles';
 
+import useApplicationData from '../../hooks/useApplicationData'
+
+import { useState } from 'react';
+
 
 function AddBill(props) {
-  const classes = useStyles();
+	const { state, createBill } = useApplicationData()
+	const [description, setDescription] = useState('');
+	const [cost, setCost] = useState(0);
+	const [groupId, setGroupId] = useState(undefined);
+	const classes = useStyles();
+
+	const groups = state.groups.map(group => {
+		return (
+			<option value={group.id} > {group.name} </option>
+		);
+		});
 
   return (    
       <Container component="main" maxWidth="xs">
@@ -32,7 +46,8 @@ function AddBill(props) {
                   fullWidth
                   id="billDescription"
                   label="Description"
-                  autoFocus
+									autoFocus
+									onChange={(event) => setDescription(event.target.value)}
                 />
              </Grid> 
             <Grid item xs={12} sm={12}>
@@ -44,26 +59,26 @@ function AddBill(props) {
                 fullWidth
                 id="billCost"
                 label="Cost"
-                autoFocus
+								autoFocus
+								onChange={(event) => setCost(event.target.value)}
               />
             </Grid> 
             <Grid item xs={12} sm={12}>
               <FormControl variant="outlined" className={classes.formControl}>
-                <InputLabel htmlFor="outlined-age-native-simple">Group</InputLabel>
+                <InputLabel htmlFor="outlined-group-native-simple"
+									>Group</InputLabel>
                 <Select
                   native
-                  // value={state.age}
-                  // onChange={handleChange}
+                  // value={state.groups}
                   label="Group"
                   inputProps={{
                   name: 'group',
                   id: 'outlined-group-native-simple',
-                  }}
+									}}
+									onChange={(event) => setGroupId(event.target.value)}
                 >
                 <option aria-label="None" value="" />
-                <option value={10}>Roommates</option>
-                <option value={20}>Road Trip</option>
-                <option value={30}>Happy Hour</option>
+								{groups}
                 </Select>
               </FormControl>
             </Grid>
@@ -73,7 +88,8 @@ function AddBill(props) {
             fullWidth
             variant="contained"
             color="primary"
-            className={classes.submit}
+						className={classes.submit}
+						onClick={() => {createBill(cost, description, groupId)}}
           >
            Submit
           </Button>
