@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useCallback, useState } from "react";
+import { PieChart, Pie, Cell } from "recharts";
 import { Typography, Button, Container } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 import Avatar from '@material-ui/core/Avatar';
@@ -7,14 +8,9 @@ import ReceiptIcon from '@material-ui/icons/Receipt';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
-import IconButton from '@material-ui/core/IconButton';
-import FormGroup from '@material-ui/core/FormGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FolderIcon from '@material-ui/icons/Folder';
-import DeleteIcon from '@material-ui/icons/Delete';
+import { borders } from '@material-ui/system';
+
 
 function generate(element) {
   return [0, 1, 2].map((value) =>
@@ -23,6 +19,27 @@ function generate(element) {
     }),
   );
 }
+
+const data = [
+  { name: 'Group A', value: 400 },
+  { name: 'Group B', value: 300 },
+];
+
+const COLORS = ['#0088FE', '#00C49F'];
+
+const RADIAN = Math.PI / 180;
+const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, index }) => {
+  const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
+  const x = cx + radius * Math.cos(-midAngle * RADIAN);
+  const y = cy + radius * Math.sin(-midAngle * RADIAN);
+
+  return (
+    <text x={x} y={y} fill="white" textAnchor={x > cx ? 'start' : 'end'} dominantBaseline="central">
+      {`${(percent * 100).toFixed(0)}%`}
+    </text>
+  );
+};
+
 
 function Bill(props) {
   const classes = useStyles();
@@ -77,8 +94,8 @@ function Bill(props) {
             </Typography>
           </Grid>
 
-          <Grid container spacing={2}>
-            <Grid item xs={12} md={6} className={classes.billFriends}>
+          <Grid container spacing={1} direction='row'>
+            <Grid item xs={6} md={6} className={classes.billFriends} border borderColor="primary.main" >
               <Typography variant="button" >
                 Have Paid:
               </Typography>
@@ -100,10 +117,7 @@ function Bill(props) {
                 </List>
               </div>
             </Grid>
-          </Grid>
-
-          <Grid container spacing={2}>
-            <Grid item xs={12} md={6} className={classes.billFriends}>
+            <Grid item xs={6} className={classes.billFriends}>
               <Typography variant="button" >
                 Have Not Paid:
               </Typography>
@@ -126,6 +140,23 @@ function Bill(props) {
               </div>
             </Grid>
           </Grid>
+          <PieChart width={400} height={400}>
+            <Pie
+              data={data}
+              cx={200}
+              cy={200}
+              labelLine={false}
+              label={renderCustomizedLabel}
+              outerRadius={80}
+              fill="#8884d8"
+              dataKey="value"
+            >
+              {data.map((entry, index) => (
+                <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+              ))}
+            </Pie>
+          </PieChart>
+
         </Grid>
       </div>
     </Container>

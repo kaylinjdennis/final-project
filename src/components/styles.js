@@ -48,7 +48,8 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: 25,
   },
   billFriends: {
-    marginTop: 25
+    marginTop: 25,
+    marginBottom: 0
   },
 	
 }));
