@@ -10,6 +10,7 @@ import CreateGroup from './CreateGroup'
 import AddBill from './AddBill'
 import Friends from './Friends'
 import Profile from './Profile'
+import Bill from './Bill'
 
 function App() {
 	const classes = useStyles();
@@ -26,6 +27,7 @@ function App() {
         <Route path='/profile' component={Profile} />
 				<Route path='/creategroup' component={CreateGroup} />
 				<Route path='/friends' component={Friends} />
+				<Route path='/bill' component={Bill} />
 				</Switch>
 		</BrowserRouter>
 		</>

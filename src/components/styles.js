@@ -40,7 +40,16 @@ const useStyles = makeStyles((theme) => ({
   },
   groupForm: {
     paddingTop: 50,
-  }
+  },
+  heading: {
+    marginBottom: 25
+  },
+  barchart: {
+    marginBottom: 25,
+  },
+  billFriends: {
+    marginTop: 25,
+  },
 	
 }));
 
