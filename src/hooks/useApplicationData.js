@@ -6,8 +6,9 @@ import axios from 'axios';
 export default function useApplicationData() {
 	const [state, setState] = useState({
 		user: '',
-		bills: {},
-		groups: []
+		bills: [],
+		groups: [],
+		friends: []
 	})
 
 	useEffect(() => {
@@ -19,43 +20,67 @@ export default function useApplicationData() {
 			.catch(err => {
 				console.log(err)
 			});
+		getUsersCurrentFriends()
+			.then(res => res.current_friends)
+			.then((res) => {
+				setState(prev => ({ ...prev, friends: res }));
+			})
+			.catch(err => {
+				console.log(err)
+			});
 	}, []);
 
 	const getUser = () => {
 		axios.get('/api/user')
 			.then(res => {
-				setState({
-					...state,
-					user: res
-				})
+				setState(prev => ({ ...prev, user: res.data }));
 			})
 	}
 
 	const getUsersGroups = () => {
 		return axios.get('/api/groups')
 			.then(res => {
-				return setState({
-					...state,
+				return setState(prev => ({
+					...prev,
 					groups: res.data
-				})
+				}))
+			})
+	}
+
+	const getUsersCurrentFriends = () => {
+		return axios.get('/api/user/friends')
+			.then(res => {
+				return setState(prev => ({
+					...prev,
+					friends: res.data.current_friends
+				}))
 			})
 	}
 
 	const createBill = (cost, description, group_id) => {
 		const bill = { "cost": cost, "description": String(description), "group_id": group_id };
-		const bills = { ...state.bills, bill };
 
 		return axios.post('/api/bills', bill)
-			.then(() => {
-				setState({
-					...state,
-					bills
-				})
+			.then((res) => {
+				setState((prev) => ({
+					...prev,
+					bills: { ...prev.bills, res }
+				}));
+				console.log('state', state);
 			})
 	}
 
-	return { state, setState, createBill, getUser, getUsersGroups };
+	const createGroup = (groupName, members) => {
+		return axios.post('/api/groups', { "name": groupName, "members": members })
+			.then(res => {
+				setState(prev => ({
+					...prev,
+					groups: { ...prev.groups, res }
+				}))
+			})
+	}
 
+	return { state, setState, createBill, getUser, getUsersGroups, createGroup, getUsersCurrentFriends };
 }
 // export default function useApplicationData() {
 // 	const [state, setState] = useState({

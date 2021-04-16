@@ -10,12 +10,11 @@ import useStyles from '../styles';
 
 import useApplicationData from '../../hooks/useApplicationData'
 
-import { useState, useEffect } from 'react';
-
+import { useState } from 'react';
 
 
 function AddBill(props) {
-	const { state, setState, createBill } = useApplicationData()
+	const { state, createBill } = useApplicationData()
 	const [description, setDescription] = useState('');
 	const [cost, setCost] = useState(0);
 	const [groupId, setGroupId] = useState(undefined);
@@ -71,14 +70,6 @@ function AddBill(props) {
                 <Select
                   native
                   // value={state.groups}
-									// onChange={handleChange}
-									// onChange={() => {
-									// 	getUsersGroups()
-									// 		.then(res => {
-									// 			console.log('groups', res);
-									// 		})
-									// }}
-									// onClick={getUsersGroups}
                   label="Group"
                   inputProps={{
                   name: 'group',
@@ -88,9 +79,6 @@ function AddBill(props) {
                 >
                 <option aria-label="None" value="" />
 								{groups}
-                {/* <option value={10}>Roommates</option> */}
-                {/* <option value={20}>Road Trip</option> */}
-                {/* <option value={30}>Happy Hour</option> */}
                 </Select>
               </FormControl>
             </Grid>
