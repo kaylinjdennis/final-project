@@ -170,16 +170,3 @@ Response
 ### Groups
 
 `POST /api/groups`
-
-`PUT /api/appointments/:id`
-
-Body:
-
-```json
-{
-  "interview": {
-    "student": String,
-    "interviewer": Number
-  }
-}
-```

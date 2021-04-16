@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const { findUserByEmail, sendFriendRequest, acceptFriendRequest } = require('./helperFunctions');
+const { findUserByEmail, sendFriendRequest, acceptFriendRequest, getUserInfo, getTotalOwed, getTotalDue, getUsersGroups } = require('./helperFunctions');
 
 module.exports = (db) => {
 
@@ -87,7 +87,6 @@ module.exports = (db) => {
 				.catch(err => {
 					res.status(500).json({ error: err.message })
 				})
-
 		} else if (type === 'accepting') {
 			const friendID = req.body.friend_info.id
 			acceptFriendRequest(Number(userID), friendID, db)
@@ -98,22 +97,26 @@ module.exports = (db) => {
 		}
 	})
 
-	// Get info for current users profile page (including groups, bills, friends etc)
-	// ----------------------------------------------------
-	// ADD LOGIC INTO THIS FUNCTION!!!!!
-	// ----------------------------------------------------
+	// Get info for current users profile page (including groups, bills, etc)
 	router.get('/:id', (req, res) => {
 		const userID = req.params.id;
 		if (req.session.user_id === userID) {
-			db.query(`SELECT * FROM users WHERE id = $1;`, [userID])
-				.then(data => {
-					const users = data.rows[0];
-					res.send({ id: users.id, name: users.name, email: users.email });
+			getUserInfo(userID, db)
+				.then(userInfo => {
+					return getTotalOwed(userID, db)
+						.then(owed => {
+							return getTotalDue(userID, db)
+								.then(due => {
+									return getUsersGroups(userID, db)
+										.then(groups => {
+											return { info: userInfo, total_owed: owed, total_due: due, groups: groups }
+										})
+								})
+						})
 				})
+				.then(data => res.send(data))
 				.catch(err => {
-					res
-						.status(500)
-						.json({ error: err.message });
+					res.status(500).json({ error: err.message });
 				});
 		} else {
 			res.send({});

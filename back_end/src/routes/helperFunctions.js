@@ -225,15 +225,38 @@ const getRecievedBills = (userID, db) => {
 }
 
 const getTotalOwed = (userID, db) => {
+	let total = 0;
+	return getPostedBills(userID, db)
+		.then(res => {
+			for (const bill of res) {
+				total += bill.cost;
+			}
+			return total;
+		})
+}
+
+const getTotalDue = (userID, db) => {
+	let total = 0;
+	return getRecievedBills(userID, db)
+		.then(res => {
+			for (const bill of res) {
+				total += bill.cost;
+			}
+			return total;
+		})
+}
+
+const getUsersGroups = (userID, db) => {
 	const query =
 		`
-		SELECT id, name, email FROM users
-		WHERE id = $1
+		SELECT groups.id, name FROM groups
+		JOIN user_groups ON groups.id = group_id
+		WHERE user_id = $1
 		`;
 	const values = [userID];
 
 	return db.query(query, values)
-		.then(res => res.rows[0])
+		.then(res => res.rows)
 		.catch(err => console.error('QUERY ERROR:\n', err.stack));
 }
 
@@ -254,5 +277,7 @@ module.exports = {
 	getUserInfo,
 	getPostedBills,
 	getRecievedBills,
-	getTotalOwed
+	getTotalOwed,
+	getTotalDue,
+	getUsersGroups
 }
