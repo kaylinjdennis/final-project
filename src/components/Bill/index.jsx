@@ -9,8 +9,8 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import ListItemText from '@material-ui/core/ListItemText';
-import { borders } from '@material-ui/system';
-
+import { palette } from '@material-ui/system';
+import Box from '@material-ui/core/Box';
 
 function generate(element) {
   return [0, 1, 2].map((value) =>
@@ -95,7 +95,8 @@ function Bill(props) {
           </Grid>
 
           <Grid container spacing={1} direction='row'>
-            <Grid item xs={6} md={6} className={classes.billFriends} border borderColor="primary.main" >
+            <Grid item xs={6} md={6} className={classes.billFriends} >
+              <Box bgcolor='#0088FE'>
               <Typography variant="button" >
                 Have Paid:
               </Typography>
@@ -109,15 +110,17 @@ function Bill(props) {
                       />
                       </ListItemAvatar>
                       <ListItemText
-                        primary="Single-line item"
+                        primary="friend"
                         secondary={secondary ? 'Secondary text' : null}
                       />
                     </ListItem>,
                   )}
                 </List>
               </div>
+              </Box>
             </Grid>
             <Grid item xs={6} className={classes.billFriends}>
+              <Box bgcolor='#00C49F'>
               <Typography variant="button" >
                 Have Not Paid:
               </Typography>
@@ -131,23 +134,24 @@ function Bill(props) {
                       />
                       </ListItemAvatar>
                       <ListItemText
-                        primary="Single-line item"
+                        primary="friend"
                         secondary={secondary ? 'Secondary text' : null}
                       />
                     </ListItem>,
                   )}
                 </List>
               </div>
+              </Box>
             </Grid>
           </Grid>
-          <PieChart width={400} height={400}>
+          <PieChart width={400} height={400} alignItems='flex-start'>
             <Pie
               data={data}
               cx={200}
               cy={200}
               labelLine={false}
               label={renderCustomizedLabel}
-              outerRadius={80}
+              outerRadius={100}
               fill="#8884d8"
               dataKey="value"
             >

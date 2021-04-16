@@ -49,7 +49,6 @@ const useStyles = makeStyles((theme) => ({
   },
   billFriends: {
     marginTop: 25,
-    marginBottom: 0
   },
 	
 }));
