@@ -8,9 +8,34 @@ import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
 import useStyles from '../styles';
 
+import useApplicationData from '../../hooks/useApplicationData'
+
+import { useEffect } from 'react';
+
+
 
 function AddBill(props) {
-  const classes = useStyles();
+	const { state, setState, getUsersGroups } = useApplicationData()
+	const classes = useStyles();
+  
+  // useEffect(() => {
+  //   getUsersGroups()
+	// 		.then(res => res.name)
+  //     .then((data) => {
+  //       setState(prev => ({...prev, groups: data}));
+  //     })
+  //     .catch(err => {
+  //       console.log(err)
+  //     });
+  // }, []);
+
+	console.log('groups:', state.groups.data);
+	
+	const groups = state.groups.map(group => {
+		return (
+			<option> {group.name} </option>
+		);
+		});
 
   return (    
       <Container component="main" maxWidth="xs">
@@ -49,11 +74,19 @@ function AddBill(props) {
             </Grid> 
             <Grid item xs={12} sm={12}>
               <FormControl variant="outlined" className={classes.formControl}>
-                <InputLabel htmlFor="outlined-age-native-simple">Group</InputLabel>
+                <InputLabel htmlFor="outlined-group-native-simple"
+									>Group</InputLabel>
                 <Select
                   native
-                  // value={state.age}
-                  // onChange={handleChange}
+                  // value={state.groups}
+									// onChange={handleChange}
+									// onChange={() => {
+									// 	getUsersGroups()
+									// 		.then(res => {
+									// 			console.log('groups', res);
+									// 		})
+									// }}
+									// onClick={getUsersGroups}
                   label="Group"
                   inputProps={{
                   name: 'group',
@@ -61,9 +94,10 @@ function AddBill(props) {
                   }}
                 >
                 <option aria-label="None" value="" />
-                <option value={10}>Roommates</option>
-                <option value={20}>Road Trip</option>
-                <option value={30}>Happy Hour</option>
+								{groups}
+                {/* <option value={10}>Roommates</option> */}
+                {/* <option value={20}>Road Trip</option> */}
+                {/* <option value={30}>Happy Hour</option> */}
                 </Select>
               </FormControl>
             </Grid>
