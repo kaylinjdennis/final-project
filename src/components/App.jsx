@@ -23,7 +23,7 @@ function App() {
         <Route path='/profile' component={Profile} />
 				<Route path='/creategroup' component={CreateGroup} />
 				<Route path='/friends' component={Friends} />
-				<Route path='/bill' component={Bill} />
+				<Route path='/bill/:id' component={Bill} />
 				</Switch>
 		</BrowserRouter>
 		</>

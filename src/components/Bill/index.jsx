@@ -10,6 +10,9 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import ListItemText from '@material-ui/core/ListItemText';
 import Box from '@material-ui/core/Box';
+import Button from '@material-ui/core/Button';
+
+import useApplicationData from '../../hooks/useApplicationData'
 
 function generate(element) {
   return [0, 1, 2].map((value) =>
@@ -41,11 +44,79 @@ const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, per
 
 
 function Bill(props) {
+	const billID = props.match.params.id;
+
+	const { state, payBill } = useApplicationData();
+
+	console.log('state.groups', state.groups)
+	console.log('state.friends', state.friends)
+	
+	
+
+	const bill = state.bills.received.filter((bill) => bill.id === Number(billID));
+	let group = [];
+	let billCreator = [];
+	if (bill.length !== 0) {
+		group = state.groups.filter((group) => group.id === bill[0].group_id);
+		billCreator = state.friends.filter((friend) => friend.friend_info.id === bill[0].poster_id);
+	}
+
+	console.log('group', group)
+	console.log('bill', (bill))
+
   const classes = useStyles();
   const [dense, setDense] = React.useState(false);
   const [secondary, setSecondary] = React.useState(false);
 
-  return (    
+  return (
+    <>
+    { (bill.length === 0 || group.length === 0 || billCreator.length === 0) &&  
+			<Container component="main" maxWidth="xs">
+      <div className={classes.paper}>
+        <Avatar className={classes.icon}>
+          <ReceiptIcon />
+        </Avatar>
+        <Typography className={classes.heading} component="h1" variant="h5">
+          Bill
+        </Typography>
+
+        {/* if bill type owing render bill details this way */}
+
+        <Grid container alignItems='center' spacing={2} direction='row'>
+          <Grid container alignItems='center' item xs={12} sm={12}>
+            <Typography component="h1" variant="button">
+              Description:
+            </Typography>
+          </Grid>
+          <Grid container alignItems='center' item xs={12} sm={12}>
+            <Typography component="h1" variant="button">
+              Created By: 
+            </Typography>
+          </Grid>
+          <Grid container alignItems='center' item xs={12} sm={12}>
+            <Typography component="h1" variant="button">
+             Group Name: 
+            </Typography>
+          </Grid>
+          <Grid container alignItems='center' item xs={12} sm={12}>
+            <Typography component="h1" variant="button">
+              $ Due:
+            </Typography>
+          </Grid>
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            color="primary"
+            className={classes.submit}
+          >
+            Pay Bill
+          </Button>
+    
+				</Grid >
+				</div>
+    </Container> }
+    { (bill.length !== 0 && group.length !== 0 && billCreator.length !== 0) && 
     <Container component="main" maxWidth="xs">
       <div className={classes.paper}>
         <Avatar className={classes.icon}>
@@ -57,31 +128,43 @@ function Bill(props) {
 
         {/* if bill type owing render bill details this way */}
 
-        {/* <Grid container alignItems='center' spacing={2} direction='row'>
+        <Grid container alignItems='center' spacing={2} direction='row'>
           <Grid container alignItems='center' item xs={12} sm={12}>
             <Typography component="h1" variant="button">
-              Description: 
+              Description: {bill[0].description}
             </Typography>
           </Grid>
           <Grid container alignItems='center' item xs={12} sm={12}>
             <Typography component="h1" variant="button">
-              Created By:
+              Created By: {billCreator[0].friend_info.name}
             </Typography>
           </Grid>
           <Grid container alignItems='center' item xs={12} sm={12}>
             <Typography component="h1" variant="button">
-             Group Name:
+             Group Name: {group[0].name}
             </Typography>
           </Grid>
           <Grid container alignItems='center' item xs={12} sm={12}>
             <Typography component="h1" variant="button">
-              $ Due:
+              $ Due: {bill[0].cost}
             </Typography>
           </Grid>
-        </Grid> */}
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            color="primary"
+						className={classes.submit}
+						onClick={() => {payBill(billID)}}
+          >
+            Pay Bill
+          </Button>
+    
+				</Grid >
+     
 
         {/* else bill type is owed, render this way */}
-        <Grid container alignItems='center' spacing={2} direction='row'>
+        {/* <Grid container alignItems='center' spacing={2} direction='row'>
           <Grid container alignItems='center' item xs={12} sm={12}>
             <Typography component="h1" variant="button">
               Description: 
@@ -160,9 +243,12 @@ function Bill(props) {
             </Pie>
           </PieChart>
 
-        </Grid>
+        </Grid> */}
       </div>
     </Container>
+
+      }
+    </>
   );
 }
 

@@ -14,6 +14,13 @@ export default function useApplicationData() {
 	})
 
 	useEffect(() => {
+		getUsersGroups()
+			.then((res) => {
+				setState(prev => ({ ...prev, groups: res }));
+			})
+			.catch(err => {
+				console.log(err)
+			});
 		getUser()
 			.then(res => {
 				setState(prev => ({ ...prev, user_id: res }));
@@ -56,14 +63,6 @@ export default function useApplicationData() {
 			}).catch(err => {
 				console.log(err)
 			});
-		getUsersGroups()
-			.then(res => res.name)
-			.then((res) => {
-				setState(prev => ({ ...prev, groups: res }));
-			})
-			.catch(err => {
-				console.log(err)
-			});
 		getUsersCurrentFriends()
 			.then(res => res.current_friends)
 			.then((res) => {
@@ -95,12 +94,13 @@ export default function useApplicationData() {
 
 	const getUsersGroups = () => {
 		return axios.get('/api/groups')
-			.then(res => {
-				return setState(prev => ({
-					...prev,
-					groups: res.data
-				}))
-			})
+			.then(res => res.data)
+		// .then(res => {
+		// 	return setState(prev => ({
+		// 		...prev,
+		// 		groups: res.data
+		// 	}))
+		// })
 	}
 
 	const getUsersCurrentFriends = () => {
@@ -179,6 +179,11 @@ export default function useApplicationData() {
 			})
 	}
 
+	const payBill = (billID) => {
+		return axios.post(`/api/bills/${billID}`, { "paid": true })
+			.then(res => res.data)
+	}
+
 	const getPostedBills = (userID) => {
 		return axios.get(`/api/bills/posted/${userID}`)
 			.then(res => res.data)
@@ -203,7 +208,7 @@ export default function useApplicationData() {
 		// })
 	}
 
-	return { state, setState, createBill, getUser, getUsersGroups, createGroup, sendFriendRequest, acceptFriendRequest, getPostedBills, getReceivedBills };
+	return { state, setState, createBill, getUser, getUsersGroups, createGroup, sendFriendRequest, acceptFriendRequest, getPostedBills, getReceivedBills, payBill };
 }
 // export default function useApplicationData() {
 // 	const [state, setState] = useState({

@@ -71,10 +71,12 @@ const postedBills = state.bills.posted.map((bill) => {
 })
 
 const receivedBills = state.bills.received.map((bill) => {
-	const route = `/bill/${bill.id}`
+	if (!bill.paid) {
+		const route = `/bill/${bill.id}`
 	return (
 		<MenuItem onClick={handleClose2} component={Link} to={route}> {bill.description} </MenuItem>
 	);
+	}
 })
 
 return (
