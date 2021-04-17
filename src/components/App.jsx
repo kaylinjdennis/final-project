@@ -1,9 +1,6 @@
 import React from 'react';
-import { BrowserRouter, Route, Link, NavLink, Switch } from 'react-router-dom';
-import { CssBaseline, Grid, Button } from '@material-ui/core';
-
-import useStyles from './styles'
-
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { CssBaseline } from '@material-ui/core';
 import Navbar from './Navbar'
 import Home from './Home'
 import CreateGroup from './CreateGroup'
@@ -13,7 +10,6 @@ import Profile from './Profile'
 import Bill from './Bill'
 
 function App() {
-	const classes = useStyles();
 
 	return (
 		<>

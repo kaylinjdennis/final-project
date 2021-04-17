@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from "react";
 import { PieChart, Pie, Cell } from "recharts";
-import { Typography, Button, Container } from '@material-ui/core';
+import { Typography, Container } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 import Avatar from '@material-ui/core/Avatar';
 import useStyles from '../styles';
@@ -9,7 +9,6 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import ListItemText from '@material-ui/core/ListItemText';
-import { palette } from '@material-ui/system';
 import Box from '@material-ui/core/Box';
 
 function generate(element) {

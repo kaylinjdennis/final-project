@@ -1,11 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { CssBaseline, Grid, Button } from '@material-ui/core';
-
-
 import useStyles from '../styles'
-
-import Navbar from '../Navbar'
 
 function Home() {
 	const classes = useStyles();

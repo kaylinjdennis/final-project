@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Typography, Container, Grid, Toolbar, TextField, Button, List, ListItem, ListItemText, ListItemIcon, Avatar, ListItemAvatar } from '@material-ui/core';
+import { Typography, Container, Grid, Toolbar, TextField, Button, List, ListItem, ListItemText, Avatar, ListItemAvatar } from '@material-ui/core';
 import { makeStyles, fade } from '@material-ui/core/styles'
-
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
-
 import useApplicationData from '../../hooks/useApplicationData';
 
 const useStyles = makeStyles((theme) => ({
