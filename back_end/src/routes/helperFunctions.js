@@ -198,7 +198,7 @@ const getUserInfo = (userID, db) => {
 const getPostedBills = (userID, db) => {
 	const query =
 		`
-		SELECT invoices.cost, invoices.created_at, invoices.description, invoices.group_id, bills.payee_id, bills.paid
+		SELECT bills.id, bills.invoice_id, invoices.cost, invoices.created_at, invoices.description, invoices.group_id, bills.payee_id, bills.paid
 		FROM bills
 		JOIN invoices ON invoice_id = invoices.id
 		WHERE invoices.poster_id = $1;
@@ -209,10 +209,10 @@ const getPostedBills = (userID, db) => {
 		.catch(err => console.error('QUERY ERROR:\n', err.stack));
 }
 
-const getRecievedBills = (userID, db) => {
+const getReceivedBills = (userID, db) => {
 	const query =
 		`
-		SELECT invoices.cost, invoices.created_at, invoices.description, invoices.poster_id, invoices.group_id, bills.paid
+		SELECT bills.id, bills.invoice_id, invoices.cost, invoices.created_at, invoices.description, invoices.poster_id, invoices.group_id, bills.paid
 		FROM bills
 		JOIN invoices ON invoice_id = invoices.id
 		WHERE payee_id = $1;
@@ -237,7 +237,7 @@ const getTotalOwed = (userID, db) => {
 
 const getTotalDue = (userID, db) => {
 	let total = 0;
-	return getRecievedBills(userID, db)
+	return getReceivedBills(userID, db)
 		.then(res => {
 			for (const bill of res) {
 				total += bill.cost;
@@ -276,7 +276,7 @@ module.exports = {
 	acceptFriendRequest,
 	getUserInfo,
 	getPostedBills,
-	getRecievedBills,
+	getReceivedBills,
 	getTotalOwed,
 	getTotalDue,
 	getUsersGroups

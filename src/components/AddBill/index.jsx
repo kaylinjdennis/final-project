@@ -15,7 +15,7 @@ import useApplicationData from '../../hooks/useApplicationData'
 import { useState } from 'react';
 
 function AddBill(props) {
-	const { state, createBill } = useApplicationData()
+	const { state, createBill } = useApplicationData();
 	const [description, setDescription] = useState('');
 	const [cost, setCost] = useState(0);
 	const [groupId, setGroupId] = useState(undefined);
