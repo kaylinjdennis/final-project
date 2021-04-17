@@ -12,39 +12,70 @@ import FileCopyIcon from '@material-ui/icons/FileCopy';
 import MonetizationOnIcon from '@material-ui/icons/MonetizationOn';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ReferenceLine } from "recharts";
 
-import {
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-  ReferenceLine
-} from "recharts";
-
-const data = [
-  {
-    name: 'Your Totals',
-    Owed: 300,
-    Owing: -500
-  }
-];
+import useApplicationData from '../../hooks/useApplicationData'
 
 function Profile(props) {
 
 const classes = useStyles();
+const { state } = useApplicationData();
 
 const [anchorEl, setAnchorEl] = React.useState(null);
-
 const handleClick = (event) => {
   setAnchorEl(event.currentTarget);
 };
-
 const handleClose = () => {
   setAnchorEl(null);
 };
+
+const [anchorEl2, setAnchorEl2] = React.useState(null);
+  const handleClick2 = (event) => {
+    setAnchorEl2(event.currentTarget);
+  };
+  const handleClose2 = () => {
+    setAnchorEl2(null);
+	};
+	
+const [anchorEl3, setAnchorEl3] = React.useState(null);
+const handleClick3 = (event) => {
+  setAnchorEl3(event.currentTarget);
+};
+const handleClose3 = () => {
+  setAnchorEl3(null);
+};
+
+const data = [
+  {
+    name: 'Your Totals',
+    Owed: state.profile_info.total_owed,
+    Owing: state.profile_info.total_owing
+  }
+];
+
+const groups = state.groups.map(group => {
+	return (
+		<MenuItem onClick={handleClose3} component={Link} to="/groups"> {group.name} </MenuItem>
+	);
+});
+
+const billsInDropDown = [];
+const postedBills = state.bills.posted.map((bill) => {
+	if (!billsInDropDown.includes(bill.invoice_id)) {
+		const route = `/bill/${bill.id}`
+		billsInDropDown.push(bill.invoice_id);
+		return (
+			<MenuItem onClick={handleClose} component={Link} to={route}> {bill.description} </MenuItem>
+		);
+	}
+})
+
+const receivedBills = state.bills.received.map((bill) => {
+	const route = `/bill/${bill.id}`
+	return (
+		<MenuItem onClick={handleClose2} component={Link} to={route}> {bill.description} </MenuItem>
+	);
+})
 
 return (
     <Container component="main" maxWidth="xs" >
@@ -91,26 +122,24 @@ return (
               open={Boolean(anchorEl)}
               onClose={handleClose}
             >
-              <MenuItem onClick={handleClose} component={Link} to="/bills/:id"> Bill1 </MenuItem>
-              <MenuItem onClick={handleClose} component={Link} to="/billd/:id"> Bill2</MenuItem>
+              {postedBills}
             </Menu>
           </Grid>
           <Grid container alignItems='center' item xs={12} sm={12}>
             <Typography component="h1" variant="button">
             < MonetizationOnIcon fontSize='large' /> Bills To Pay
             </Typography>
-            <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
+            <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick2}>
             <ArrowDropDownIcon fontSize='large'/>
             </Button>
             <Menu
               id="simple-menu"
-              anchorEl={anchorEl}
+              anchorEl={anchorEl2}
               keepMounted
-              open={Boolean(anchorEl)}
-              onClose={handleClose}
+              open={Boolean(anchorEl2)}
+              onClose={handleClose2}
             >
-              <MenuItem onClick={handleClose} component={Link} to="/bills/:id"> Bill3 </MenuItem>
-              <MenuItem onClick={handleClose} component={Link} to="/billd/:id"> Bill4</MenuItem>
+              {receivedBills}
             </Menu>
           </Grid>
        
@@ -118,18 +147,17 @@ return (
             <Typography component="h1" variant="button">
             <GroupIcon fontSize='large'/> Groups Part Of
             </Typography>
-            <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
+            <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick3}>
             <ArrowDropDownIcon fontSize='large'/>
             </Button>
             <Menu
               id="simple-menu"
-              anchorEl={anchorEl}
+              anchorEl={anchorEl3}
               keepMounted
-              open={Boolean(anchorEl)}
-              onClose={handleClose}
+              open={Boolean(anchorEl3)}
+              onClose={handleClose3}
             >
-              <MenuItem onClick={handleClose} component={Link} to="/groups"> Group 1 </MenuItem>
-              <MenuItem onClick={handleClose} component={Link} to="/groups"> Group 2</MenuItem>
+              {groups}
             </Menu>
           </Grid>
         </Grid>

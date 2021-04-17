@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const { createBill, getGroupMembers, createInvoice, deleteBill, editBill, editInvoice, getPostedBills, getRecievedBills } = require('./helperFunctions');
+const { createBill, getGroupMembers, createInvoice, deleteBill, editBill, editInvoice, getPostedBills, getReceivedBills } = require('./helperFunctions');
 
 module.exports = (db) => {
 
@@ -16,7 +16,7 @@ module.exports = (db) => {
 					res.status(500).json({ error: err.message })
 				})
 		} else if (type === 'received') {
-			getRecievedBills(userID, db)
+			getReceivedBills(userID, db)
 				.then(data => res.send(data))
 				.catch(err => {
 					res.status(500).json({ error: err.message })
