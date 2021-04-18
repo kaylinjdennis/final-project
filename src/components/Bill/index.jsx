@@ -19,19 +19,18 @@ const data = [
 	{ name: 'Unpaid', value: 3 }
 ];
 
-const COLORS = ['#0088FE', '#00C49F'];
-const RADIAN = Math.PI / 180;
-const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, index }) => {
-  const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
-  const x = cx + radius * Math.cos(-midAngle * RADIAN);
-  const y = cy + radius * Math.sin(-midAngle * RADIAN);
-
-  return (
-    <text x={x} y={y} fill="white" textAnchor={x > cx ? 'start' : 'end'} dominantBaseline="central">
-      {`$${(percent * 100).toFixed(0)}`}
-    </text>
-  );
-};
+// const COLORS = ['#0088FE', '#00C49F'];
+// const RADIAN = Math.PI / 180;
+// const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, index }) => {
+//   const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
+//   const x = cx + radius * Math.cos(-midAngle * RADIAN);
+//   const y = cy + radius * Math.sin(-midAngle * RADIAN);
+//   return (
+//     <text x={x} y={y} fill="white" textAnchor={x > cx ? 'start' : 'end'} dominantBaseline="central">
+//       {`$${(percent * 100).toFixed(0)}`}
+//     </text>
+//   );
+// };
 
 function Bill(props) {
 	const billID = props.match.params.id;
@@ -117,25 +116,24 @@ function Bill(props) {
 	console.log('paid', paidMembers);
 	console.log('owing', owingMembers)
 
-  // const data = [
-  // 	{ name: 'Paid', value: paidMembers.length },
-  // 	{ name: 'Unpaid', value: owingMembers.length }
-	// ];
+	data.pop()
+	data.pop()
+	data.push({ name: 'Paid', value: paidMembers.length })
+	data.push({ name: 'Unpaid', value: owingMembers.length })
 
-// const COLORS = ['#0088FE', '#00C49F'];
-// const RADIAN = Math.PI / 180;
-// const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, index }) => {
-//   const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
-//   const x = cx + radius * Math.cos(-midAngle * RADIAN);
-//   const y = cy + radius * Math.sin(-midAngle * RADIAN);
-// 	console.log('*****', (percent * 100).toFixed(0) * bill[0].cost)
-
-//   return (
-//     <text x={x} y={y} fill="white" textAnchor={x > cx ? 'start' : 'end'} dominantBaseline="central">
-//       {`$${percent * bill[0].cost}`}
-//     </text>
-//   );
-// };
+const COLORS = ['#0088FE', '#00C49F'];
+const RADIAN = Math.PI / 180;
+const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, index }) => {
+  const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
+  const x = cx + radius * Math.cos(-midAngle * RADIAN);
+  const y = cy + radius * Math.sin(-midAngle * RADIAN);
+	console.log('*****', (percent * 100).toFixed(0) * bill[0].cost)
+  return (
+    <text x={x} y={y} fill="white" textAnchor={x > cx ? 'start' : 'end'} dominantBaseline="central">
+      {`$${percent * groupMembers.length * bill[0].cost}`}
+    </text>
+  );
+};
 
   return (
     <>
@@ -275,6 +273,8 @@ function Bill(props) {
               	fill="#8884d8"
 								dataKey="value"
 								nameKey="name"
+								interval={0}
+								isAnimationActive={false}
             	>
               	{data.map((entry, index) => (
                 	<Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
