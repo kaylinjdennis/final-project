@@ -194,6 +194,17 @@ export default function useApplicationData() {
 			.then(res => res.data)
 	}
 
+	const deleteBill = (billID) => {
+		return axios.delete(`/api/bills/${billID}`)
+			.then(res => res.data)
+	}
+
+	const editBill = (billID, cost, description, group_id, includeSelf) => {
+		// console.log('includeSelf', includeSelf)
+		return axios.post(`/api/bills/${billID}`, { "cost": cost, "description": String(description), "group_id": group_id, "include_self": includeSelf })
+			.then(res => res.data)
+	}
+
 	const getPostedBills = (userID) => {
 		return axios.get(`/api/bills/posted/${userID}`)
 			.then(res => res.data)
@@ -218,5 +229,5 @@ export default function useApplicationData() {
 		// })
 	}
 
-	return { state, setState, createBill, getUser, getUsersGroups, createGroup, sendFriendRequest, acceptFriendRequest, declineFriendRequest, getPostedBills, getReceivedBills, payBill };
+	return { state, setState, createBill, getUser, getUsersGroups, createGroup, sendFriendRequest, acceptFriendRequest, declineFriendRequest, getPostedBills, getReceivedBills, payBill, deleteBill, editBill };
 }

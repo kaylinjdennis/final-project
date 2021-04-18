@@ -69,7 +69,7 @@ const createBill = (payee_id, invoice_id, db) => {
 	db.query(query, values)
 		.then(res => res.rows[0])
 		.catch(err => {
-			console.error('QUERY ERROR:\n', err.stack);
+			console.error('CREATE BILL QUERY ERROR:\n', err.stack);
 		});
 }
 
@@ -117,44 +117,56 @@ const deleteBill = (billID, db) => {
 }
 
 const editBill = (billID, updatedValues, db) => {
-	let query = `UPDATE bills `;
-	const values = [];
-
 	if (updatedValues.paid) {
+		let query = `UPDATE bills `;
+		const values = [];
+
 		values.push(updatedValues.paid);
 		query += `SET paid = $1`;
+
+		values.push(billID);
+		query += ` WHERE id = $2 RETURNING *;`;
+
+		return db.query(query, values)
+			.then(res => res.rows[0])
+			.catch(err => console.error('EDIT BILL QUERY ERROR:\n', err.stack));
+	} else {
+		return db.query(`SELECT * FROM bills WHERE id = $1`, [billID])
+			.then(res => res.rows[0])
+			.catch(err => {
+				console.error('QUERY ERROR:\n', err.stack);
+			});
 	}
-
-	values.push(billID);
-	query += ` WHERE id = $2 RETURNING *;`;
-
-	return db.query(query, values)
-		.then(res => res.rows[0])
-		.catch(err => console.error('QUERY ERROR:\n', err.stack));
 }
 
 const editInvoice = (invoice_id, updatedValues, db) => {
-	let query = `UPDATE invoices `;
-	const values = [];
-	const propertiesToUpdate = ['description', 'cost'];
+	const query =
+		`
+		UPDATE invoices
+		SET description = $1, cost = $2
+		WHERE id = $3
+		RETURNING *;
+		`;
 
-	for (let property of propertiesToUpdate) {
-		if (updatedValues[property]) {
-			values.push(updatedValues[property]);
-			if (values.length > 1) {
-				query += `, ${property} = $${values.length}`;
-			} else {
-				query += `SET ${property} = $${values.length}`;
+	return getGroupMembers(updatedValues.group_id, db)
+		.then(res => res.length)
+		.then(res => {
+			if (!updatedValues.include_self) {
+				return res -= 1;
 			}
-		}
-	}
-
-	values.push(invoice_id);
-	query += ` WHERE id = $${values.length}  RETURNING *;`;
-
-	return db.query(query, values)
-		.then(res => res.rows[0])
-		.catch(err => console.error('QUERY ERROR:\n', err.stack));
+			return res;
+		})
+		.then(res => {
+			return (updatedValues.cost / res);
+		})
+		.then(res => {
+			const values = [updatedValues.description, res, invoice_id]
+			return db.query(query, values)
+				.then(data => data.rows[0])
+				.catch(err => {
+					console.error('*****QUERY ERROR:\n', err.stack);
+				});
+		})
 }
 
 const findUserByEmail = (email, db) => {
