@@ -195,6 +195,19 @@ const acceptFriendRequest = (userID, friendID, db) => {
 		.catch(err => console.error('QUERY ERROR:\n', err.stack));
 }
 
+const declineFriendRequest = (userID, friendID, db) => {
+	const query =
+		`
+		DELETE FROM friends
+		WHERE user_first_id = $1 AND user_second_id = $2
+		`;
+	const values = [friendID, userID];
+
+	return db.query(query, values)
+		.then(res => res.rows[0])
+		.catch(err => console.error('QUERY ERROR:\n', err.stack));
+}
+
 const getUserInfo = (userID, db) => {
 	const query =
 		`
@@ -290,6 +303,7 @@ module.exports = {
 	editInvoice,
 	findUserByEmail,
 	sendFriendRequest,
+	declineFriendRequest,
 	acceptFriendRequest,
 	getUserInfo,
 	getPostedBills,

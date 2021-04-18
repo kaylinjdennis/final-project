@@ -51,7 +51,7 @@ const useStyles = makeStyles((theme) => ({
 function Friends(props) {
   const classes = useStyles();
   const [friendEmail, setFriendEmail] = useState("");
-	const { state, sendFriendRequest, acceptFriendRequest } = useApplicationData()
+	const { state, sendFriendRequest, acceptFriendRequest, declineFriendRequest } = useApplicationData()
 
 	const friends = state.friends.map(friend => {
 		return (
@@ -79,7 +79,7 @@ function Friends(props) {
 					<ListItemText id={friend.friend_info.id} primary={friend.friend_info.name} />
 				<div>
 					<Button color="primary" size="small" type="submit" onClick={() => {acceptFriendRequest(friend.friend_info)}} variant="contained" className={classes.submit} href={"/friends"}>Accept</Button>
-					<Button color="primary" size="small" type="submit" onClick={() => {acceptFriendRequest(friend.friend_info)}} variant="contained" className={classes.submit}>Decline</Button>
+					<Button color="primary" size="small" type="submit" onClick={() => {declineFriendRequest(friend.friend_info)}} variant="contained" className={classes.submit} href={"/friends"}>Decline</Button>
 				</div>
 				</ListItem>
 		);
