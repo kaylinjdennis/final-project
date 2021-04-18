@@ -78,7 +78,7 @@ function Friends(props) {
 					</ListItemAvatar>
 					<ListItemText id={friend.friend_info.id} primary={friend.friend_info.name} />
 				<div>
-					<Button color="primary" size="small" type="submit" onClick={() => {acceptFriendRequest(friend.friend_info)}} variant="contained" className={classes.submit}>Accept</Button>
+					<Button color="primary" size="small" type="submit" onClick={() => {acceptFriendRequest(friend.friend_info)}} variant="contained" className={classes.submit} href={"/friends"}>Accept</Button>
 					<Button color="primary" size="small" type="submit" onClick={() => {acceptFriendRequest(friend.friend_info)}} variant="contained" className={classes.submit}>Decline</Button>
 				</div>
 				</ListItem>
