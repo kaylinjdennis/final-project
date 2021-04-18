@@ -28,7 +28,7 @@ module.exports = (db) => {
 	router.get('/friends', (req, res) => {
 		const userID = req.session.user_id;
 		if (userID) {
-			db.query(`SELECT id, name, email FROM users`)
+			db.query(`SELECT id, name, email, avatar FROM users`)
 				.then(data => {
 					const users = data.rows;
 					db.query(

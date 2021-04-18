@@ -83,7 +83,7 @@ function Bill(props) {
 				<ListItem>
           <ListItemAvatar>
             <Avatar className={classes.friends}
-              src="https://i.pravatar.cc/300"
+              src={memberArr[0].friend_info.avatar}
             />
             </ListItemAvatar>
             <ListItemText
@@ -100,7 +100,7 @@ function Bill(props) {
 				<ListItem>
           <ListItemAvatar>
             <Avatar className={classes.friends}
-              src="https://i.pravatar.cc/300"
+              src={memberArr[0].friend_info.avatar}
             />
             </ListItemAvatar>
             <ListItemText

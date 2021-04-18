@@ -35,6 +35,11 @@ function CreateGroup(props) {
 			setChecked(newChecked);
 			if (!members.includes(value)) {
 				setMembers(prev => [...prev, value]);
+			} else {
+				const memberIndex = members.indexOf(value);
+				const updatedMembers = [...members];
+				updatedMembers.splice(memberIndex, 1);
+				setMembers(updatedMembers);
 			}
 		};
 
@@ -55,7 +60,7 @@ function CreateGroup(props) {
 					<ListItemAvatar>
 						<Avatar className={classes.friends}
 							alt={`Avatar n°${friend.friend_info.id + 1}`}
-							src="https://i.pravatar.cc/300"
+							src={friend.friend_info.avatar}
 						/>
 					</ListItemAvatar>
 				</ListItem>
@@ -103,6 +108,7 @@ function CreateGroup(props) {
               color="primary"
 							className={classes.submit}
 							onClick={() => {createGroup(groupName, members)}}
+							href={"/addbill"}
             >
               Submit
             </Button>

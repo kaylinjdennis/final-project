@@ -33,8 +33,9 @@ module.exports = (db) => {
 		const cost = req.body.cost;
 		const date = new Date()
 		const group_id = req.body.group_id
+		const includeSelf = Number(req.body.include_self);
 
-		createInvoice(description, cost, date, userID, group_id, db)
+		createInvoice(description, cost, date, userID, group_id, includeSelf, db)
 			.then(res => {
 				const invoice_id = res.id
 				getGroupMembers(group_id, db)
@@ -83,7 +84,6 @@ module.exports = (db) => {
 				} else {
 					res.send({});
 				}
-
 			})
 			.catch(err => {
 				res.status(500).json({ error: err.message })

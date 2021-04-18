@@ -137,8 +137,8 @@ export default function useApplicationData() {
 		// })
 	}
 
-	const createBill = (cost, description, group_id) => {
-		const bill = { "cost": cost, "description": String(description), "group_id": group_id };
+	const createBill = (cost, description, group_id, includeSelf) => {
+		const bill = { "cost": cost, "description": String(description), "group_id": group_id, "include_self": includeSelf };
 
 		return axios.post('/api/bills', bill)
 			.then((res) => {
@@ -170,7 +170,7 @@ export default function useApplicationData() {
 	}
 
 	const acceptFriendRequest = (friendInfo) => {
-		return axios.post('/api/user/friends', { "friend_info": { "email": friendInfo.email, "id": friendInfo.id, "name": friendInfo.id }, "type": "accepting" })
+		return axios.post('/api/user/friends', { "friend_info": { "email": friendInfo.email, "id": friendInfo.id, "name": friendInfo.id, "avatar": friendInfo.avatar }, "type": "accepting" })
 			.then(res => {
 				setState(prev => ({
 					...prev,

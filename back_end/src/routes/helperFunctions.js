@@ -14,20 +14,33 @@ const login = (email, password, db) => {
 		.catch((err, res) => res.send(err))
 }
 
-const createInvoice = (description, cost, date, userID, group_id, db) => {
+const createInvoice = (description, cost, date, userID, group_id, includeSelf, db) => {
 	const query =
 		`
 		INSERT INTO invoices (description, cost, created_at, poster_id, group_id)
 		VALUES ($1, $2, $3, $4, $5)
 		RETURNING *;
 		`;
-	const values = [description, cost, date, userID, group_id]
 
-	return db.query(query, values)
-		.then(res => res.rows[0])
-		.catch(err => {
-			console.error('QUERY ERROR:\n', err.stack);
-		});
+	return getGroupMembers(group_id, db)
+		.then(res => res.length)
+		.then(res => {
+			if (!includeSelf) {
+				return res -= 1;
+			}
+			return res
+		})
+		.then(res => {
+			return cost / res
+		})
+		.then(res => {
+			const values = [description, res, date, userID, group_id]
+			return db.query(query, values)
+				.then(data => data.rows[0])
+				.catch(err => {
+					console.error('*****QUERY ERROR:\n', err.stack);
+				});
+		})
 }
 
 const getGroupMembers = (group_id, db) => {
@@ -185,7 +198,7 @@ const acceptFriendRequest = (userID, friendID, db) => {
 const getUserInfo = (userID, db) => {
 	const query =
 		`
-		SELECT id, name, email FROM users
+		SELECT id, name, email, avatar FROM users
 		WHERE id = $1
 		`;
 	const values = [userID];

@@ -59,7 +59,7 @@ function Friends(props) {
 				<ListItemAvatar>
 					<Avatar className={classes.friends}
 						alt={`Avatar n°${friend.friend_info.id}`}
-						src="https://i.pravatar.cc/300"
+						src={friend.friend_info.avatar}
 					/>
 				</ListItemAvatar>
 				<ListItemText id={friend.friend_info.id} primary={friend.friend_info.name} />
@@ -73,7 +73,7 @@ function Friends(props) {
 					<ListItemAvatar>
 					<Avatar 
 						alt={`Avatar n°${friend.friend_info.id + 1}`}
-						src="https://i.pravatar.cc/300"
+						src={friend.friend_info.avatar}
 					/>
 					</ListItemAvatar>
 					<ListItemText id={friend.friend_info.id} primary={friend.friend_info.name} />
