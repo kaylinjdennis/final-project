@@ -51,7 +51,6 @@ function CreateGroup(props) {
 					<Checkbox
 						edge="end"
 						onChange={handleToggle(friend.friend_info.id)}
-						checked={checked.indexOf(friend.friend_info.id)}
 						inputProps={{ 'aria-labelledby': labelId }}
 						color="primary"
 					/>
