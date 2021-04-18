@@ -166,18 +166,55 @@ const findUserByEmail = (email, db) => {
 		.catch(err => console.error('QUERY ERROR:\n', err.stack));
 }
 
+const inFriendsTable = (userID, friendID, db) => {
+	const query =
+		`
+		SELECT * FROM friends 
+		WHERE user_first_id = $1 AND user_second_id = $2
+	`;
+	const values1 = [userID, friendID];
+	const values2 = [friendID, userID];
+
+	return db.query(query, values1)
+		.then(res => {
+			console.log('user,friend', res)
+			if (res.rows.length !== 0) {
+				console.log('returning TRUE')
+				return true;
+			}
+			return db.query(query, values2)
+				.then(res => {
+					console.log('friend,user', res)
+					if (res.rows.length !== 0) {
+						console.log('** returning TRUE')
+						return true;
+					}
+					console.log('returning FALSE')
+					return false;
+				})
+		})
+		.catch(err => console.error('QUERY ERROR:\n', err.stack));
+}
+
 const sendFriendRequest = (userID, friendID, db) => {
 	const query =
 		`
-	INSERT INTO friends (user_first_id, user_second_id)
-	VALUES ($1, $2)
-	RETURNING *;
+		INSERT INTO friends (user_first_id, user_second_id)
+		VALUES ($1, $2)
+		RETURNING *;
 	`;
 	const values = [userID, friendID];
 
-	return db.query(query, values)
-		.then(res => res.rows[0])
-		.catch(err => console.error('QUERY ERROR:\n', err.stack));
+	inFriendsTable(userID, friendID, db)
+		.then(res => {
+			if (!res) {
+				return db.query(query, values)
+					.then(res => res.rows[0])
+					.catch(err => console.error('QUERY ERROR:\n', err.stack));
+			} else {
+				return {};
+			}
+		})
 }
 
 const acceptFriendRequest = (userID, friendID, db) => {
