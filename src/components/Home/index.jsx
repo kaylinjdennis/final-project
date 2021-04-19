@@ -15,7 +15,7 @@ function Home() {
         direction="column"
         alignItems="center"
         justify="space-around"
-        style={{ minHeight: "90vh" }}
+        style={{ minHeight: "93vh" }}
       >
         <Grid item xs={6}>
           <Link to="/profile" style={{ textDecoration: "none" }}>
