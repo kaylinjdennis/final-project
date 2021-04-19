@@ -27,7 +27,7 @@ CREATE TABLE user_groups (
 CREATE TABLE invoices (
   id SERIAL PRIMARY KEY NOT NULL,
 	description TEXT NOT NULL,
-	cost INTEGER NOT NULL,
+	cost NUMERIC(10, 2) NOT NULL,
 	created_at DATE NOT NULL,
   poster_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
   group_id INTEGER REFERENCES groups(id) ON DELETE CASCADE

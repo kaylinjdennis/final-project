@@ -36,11 +36,12 @@ const createInvoice = (description, cost, date, userID, group_id, includeSelf, d
 			return cost / res
 		})
 		.then(res => {
-			const values = [description, res, date, userID, group_id]
+			const dividedCost = Math.round((res + Number.EPSILON) * 100) / 100;
+			const values = [description, dividedCost, date, userID, group_id]
 			return db.query(query, values)
 				.then(data => data.rows[0])
 				.catch(err => {
-					console.error('QUERY ERROR:\n', err.stack);
+					console.error('*****QUERY ERROR:\n', err.stack);
 				});
 		})
 }
