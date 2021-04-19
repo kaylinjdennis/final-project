@@ -11,7 +11,10 @@ import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import ListItemText from '@material-ui/core/ListItemText';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
-import useApplicationData from '../../hooks/useApplicationData'
+import useApplicationData from '../../hooks/useApplicationData';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import LinearProgress from '@material-ui/core/LinearProgress';
+import { spacing } from '@material-ui/system';
 
 
 const data = [
@@ -140,10 +143,20 @@ const renderLabel = ({
 
   return (
     <>
-			{bill.length === 0 && 
-				<Typography variant="h5">
-					Loading
-				</Typography>
+      {bill.length === 0 && 
+        <div
+          style={{
+          position: 'absolute', 
+          left: '50%', 
+          top: '30%',
+          transform: 'translate(-50%, -50%)'
+          }}
+        > 
+          <Typography variant="h6" color="primary">
+				    LOADING
+			    </Typography>
+          <CircularProgress/>
+        </div>
 			}
 			{(bill.length !== 0 && bill[0].poster_id) && 
 

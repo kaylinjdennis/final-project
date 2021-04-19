@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Typography, Container, Grid, Toolbar, TextField, Button, List, ListItem, ListItemText, Avatar, ListItemAvatar } from '@material-ui/core';
-import { makeStyles, fade } from '@material-ui/core/styles'
+import { makeStyles } from '@material-ui/core/styles'
 import useApplicationData from '../../hooks/useApplicationData';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 const useStyles = makeStyles((theme) => ({
 	submit: {
@@ -63,9 +64,19 @@ function Group(props) {
   return (
 		<>
 		{(group.length === 0 || state.group_members.length === 0) && 
-			<Typography variant="h5">
-				Loading
-			</Typography>
+        <div
+				style={{
+				position: 'absolute', 
+				left: '50%', 
+				top: '30%',
+				transform: 'translate(-50%, -50%)'
+				}}
+			> 
+				<Typography variant="h6" color="primary">
+					LOADING
+				</Typography>
+				<CircularProgress/>
+			</div>
 		}
 		{(group.length !== 0 && state.group_members.length !== 0) &&
     <>
