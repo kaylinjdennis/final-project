@@ -130,6 +130,7 @@ function Profile(props) {
           <Bar dataKey="Owed" fill="#8884d8" />
           <Bar dataKey="Owing" fill="#82ca9d" />
         </BarChart>
+
         <Grid container alignItems="center" spacing={2} direction="row">
           <Grid container alignItems="center" item xs={12} sm={12}>
             <Typography component="h1" variant="button">
@@ -173,6 +174,7 @@ function Profile(props) {
               {receivedBills}
             </Menu>
           </Grid>
+
           <Grid container alignItems="flex-end" item xs={12} sm={12}>
             <Typography component="h1" variant="button">
               <GroupIcon fontSize="large" /> Groups
