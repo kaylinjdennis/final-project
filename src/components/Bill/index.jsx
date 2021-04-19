@@ -195,23 +195,35 @@ const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, per
         </Typography>
         <Grid container alignItems='center' spacing={2} direction='row'>
           <Grid container alignItems='center' item xs={12} sm={12}>
-            <Typography component="h1" variant="button">
-              Description: {bill[0].description}
+            <Typography component="h1" variant="button" style={{ marginRight: 16 }}>
+              Description: 
+            </Typography>
+            <Typography component="h1" variant="subtitle1" color="primary">
+               { bill[0].description}
             </Typography>
           </Grid>
           <Grid container alignItems='center' item xs={12} sm={12}>
-            <Typography component="h1" variant="button">
-              Created By: {billCreator[0].friend_info.name}
+            <Typography component="h1" variant="button" style={{ marginRight: 16 }}>
+              Created By:
+            </Typography>
+            <Typography component="h1" variant="subtitle1" color="primary" >
+              {billCreator[0].friend_info.name}
             </Typography>
           </Grid>
           <Grid container alignItems='center' item xs={12} sm={12}>
-            <Typography component="h1" variant="button">
-             Group Name: {group[0].name}
+            <Typography component="h1" variant="button" style={{ marginRight: 16 }}>
+             Group Name:
+            </Typography>
+            <Typography component="h1" variant="subtitle1" color="primary">
+             {group[0].name}
             </Typography>
           </Grid>
           <Grid container alignItems='center' item xs={12} sm={12}>
-            <Typography component="h1" variant="button">
-              $ Due: {bill[0].cost}
+            <Typography component="h1" variant="button" style={{ marginRight: 16 }}>
+              $ Due:
+            </Typography>
+            <Typography component="h1" variant="subtitle1" color="primary">
+              ${bill[0].cost}
             </Typography>
           </Grid>
 							<Button
@@ -244,18 +256,27 @@ const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, per
         </Typography>
         <Grid container alignItems='center' spacing={2} direction='row'>
 				<Grid container alignItems='center' item xs={12} sm={12}>
-            <Typography component="h1" variant="button">
-              Group: {group[0].name}
+            <Typography component="h1" variant="button" style={{ marginRight: 16 }}>
+              Group: 
+            </Typography>
+            <Typography component="h1" variant="subtitle1" color="primary">
+              {group[0].name}
             </Typography>
           </Grid>
           <Grid container alignItems='center' item xs={12} sm={12}>
-            <Typography component="h1" variant="button">
-              Description: {bill[0].description}
+            <Typography component="h1" variant="button" style={{ marginRight: 16 }}>
+              Description:
+            </Typography>
+            <Typography component="h1" variant="subtitle1" color="primary">
+              {bill[0].description}
             </Typography>
           </Grid>
           <Grid container alignItems='center' item xs={12} sm={12}>
-            <Typography component="h1" variant="button">
-              Total: ${(bill[0].cost) * groupMembers.length}
+            <Typography component="h1" variant="button" style={{ marginRight: 16 }}>
+              Total: 
+            </Typography>
+            <Typography component="h1" variant="subtitle1" color="primary">
+              ${(bill[0].cost) * groupMembers.length}
             </Typography>
           </Grid>
 						<PieChart width={400} height={240} alignItems='flex-start'>
