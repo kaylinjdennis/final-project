@@ -14,7 +14,6 @@ import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import useApplicationData from '../../hooks/useApplicationData';
 
 import { useState } from 'react';
-import { PersonalVideo } from '@material-ui/icons';
 
 function CreateGroup(props) {
 		const { state, createGroup } = useApplicationData()

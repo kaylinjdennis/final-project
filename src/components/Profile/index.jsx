@@ -11,7 +11,6 @@ import GroupIcon from '@material-ui/icons/Group';
 import FileCopyIcon from '@material-ui/icons/FileCopy';
 import MonetizationOnIcon from '@material-ui/icons/MonetizationOn';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
-
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ReferenceLine } from "recharts";
 
 import useApplicationData from '../../hooks/useApplicationData'

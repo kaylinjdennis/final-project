@@ -1,5 +1,5 @@
 import {React, useState} from 'react';
-import { Typography, Button, Container, TextField, List, ListItem, ListItemText, Checkbox, ListItemIcon, Box } from '@material-ui/core';
+import { Typography, Button, Container, TextField, ListItem, ListItemText, Checkbox, ListItemIcon, Box } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 import Avatar from '@material-ui/core/Avatar';
 import PostAddIcon from '@material-ui/icons/PostAdd';
@@ -7,9 +7,6 @@ import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
 import useStyles from '../styles';
-import { bgcolor, color } from '@material-ui/system';
-
-
 
 import useApplicationData from '../../hooks/useApplicationData'
 
