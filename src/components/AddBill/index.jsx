@@ -1,5 +1,5 @@
 import {React, useState} from 'react';
-import { Typography, Button, Container, TextField, List, ListItem, ListItemText, Checkbox, ListItemIcon } from '@material-ui/core';
+import { Typography, Button, Container, TextField, List, ListItem, ListItemText, Checkbox, ListItemIcon, Box } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 import Avatar from '@material-ui/core/Avatar';
 import PostAddIcon from '@material-ui/icons/PostAdd';
@@ -7,6 +7,7 @@ import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
 import useStyles from '../styles';
+import { bgcolor, color } from '@material-ui/system';
 
 
 
@@ -78,53 +79,56 @@ function AddBill(props) {
 								onChange={(event) => setCost(event.target.value)}
               />
             </Grid> 
-							<Grid item xs={12} sm={12}>
-              <FormControl variant="outlined" className={classes.formControl}>
-                <InputLabel htmlFor="outlined-group-native-simple"
-									>Group</InputLabel>
-                <Select
-                  native
-                  // value={state.groups}
-                  label="Group"
-                  inputProps={{
-                  name: 'group',
-                  id: 'outlined-group-native-simple',
-									}}
-									onChange={(event) => setGroupId(event.target.value)}
-                >
-                <option aria-label="None" value="" />
-								{groups}
-                </Select>
-              </FormControl>
-            </Grid>
+            <br></br>
+            <Grid container spacing={1} direction='row'className={classes.groupSelfCheck} >
+							<Grid item xs={6} >
+                <FormControl variant="outlined" className={classes.formControl}>
+                  <InputLabel htmlFor="outlined-group-native-simple" >Group</InputLabel>
+                  <Select
+                    native
+                    // value={state.groups}
+                    label="Group"
+                    inputProps={{
+                      name: 'group',
+                      id: 'outlined-group-native-simple',
+									  }}
+									  onChange={(event) => setGroupId(event.target.value)}
+                  >
+                    <option aria-label="None" value="" />
+								      {groups}
+                  </Select>
+                </FormControl>
+              </Grid>
           
-					<Grid>
-						<ListItem key={1} button>
-					<ListItemIcon>
-					<Checkbox
-						edge="end"
-						onChange={() => {handleToggle()}}
-						checked={includeSelf}
-						inputProps={{ 'aria-labelledby': 'checkbox-list-secondary-label-1' }}
-						color="primary"
-					/>
-					</ListItemIcon>
-					<ListItemText id={1} primary="Include Yourself?" />
-				</ListItem>
-					</Grid>
+					    <Grid item xs={6} >
+                <Box  color="primary.main">
+                  <ListItem  key={1} button >
+                    <ListItemIcon className={classes.formControl}  >
+                    <Checkbox
+                      edge="end"
+                      onChange={() => {handleToggle()}}
+                      checked={includeSelf}
+                      inputProps={{ 'aria-labelledby': 'checkbox-list-secondary-label-1' }}
+                      color="primary"
+                    />
+                    </ListItemIcon>
+                    <ListItemText className={classes.formControl} id={1} primary="Include Yourself?"/>
+                  </ListItem>
+                </Box>
+					    </Grid>
             </Grid>
-					
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-						className={classes.submit}
-						onClick={handleClick}
-						href={"/profile"}
-          >
-						Submit
-          </Button>
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              color="primary"
+              className={classes.submit}
+              onClick={handleClick}
+              href={"/profile"}
+            >
+              Submit
+            </Button>
+          </Grid>
          </form>
         </div>
       </Container>

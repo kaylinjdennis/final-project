@@ -1,3 +1,4 @@
+import { blue, grey } from '@material-ui/core/colors';
 import { makeStyles } from '@material-ui/core/styles'
 
 
@@ -51,6 +52,12 @@ const useStyles = makeStyles((theme) => ({
 	billFriends: {
 		marginTop: 25,
 	},
+	groupSelfCheck: {
+		margin: 5,
+	},
+	selfCheckBox: {
+		paddingTop: 0,
+	}
 
 }));
 

@@ -282,7 +282,7 @@ const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, per
             	</Pie>
 							{/* <Tooltip /> */}
           	</PieChart>
-          <Grid container spacing={1} direction='row'>
+          <Grid container spacing={0} direction='row'>
             <Grid item xs={6} md={6} className={classes.billFriends} >
               <Box bgcolor='#0088FE'>
               <Typography variant="button" >
