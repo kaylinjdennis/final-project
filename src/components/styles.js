@@ -1,5 +1,5 @@
 import { blue, grey } from '@material-ui/core/colors';
-import { makeStyles } from '@material-ui/core/styles'
+import { makeStyles, fade } from '@material-ui/core/styles'
 
 
 const useStyles = makeStyles((theme) => ({
@@ -12,11 +12,7 @@ const useStyles = makeStyles((theme) => ({
 		// height: '10vh'
 		// maxWidth: "lg",
 		// minWidth: "sm"
-    flexGrow: '2',
-    maxWidth: '175px',
-    maxHeight: '165px',
-    minWidth: '175px',
-    minHeight: '165px'
+		flexGrow: '2'
 	},
 	paper: {
 		marginTop: theme.spacing(5),
@@ -61,6 +57,47 @@ const useStyles = makeStyles((theme) => ({
 	},
 	selfCheckBox: {
 		paddingTop: 0,
+	},
+	searchContainer: {
+    display: "flex",
+    backgroundColor: fade(theme.palette.common.white, 0.15),
+    paddingRight: "20px",
+    marginTop: "5px",
+    marginBottom: "5px",
+  },
+  searchIcon: {
+    alignSelf: "flex-end",
+		marginBottom: "5px",
+		marginRight: "5px"
+  },
+  searchInput: {
+    width: "200px",
+    margin: "5px",
+	},
+	submit1: {
+		margin: "5px",
+		width: "50px",
+		height: "20px",
+		fontSize: "12px"
+	},
+	send: {
+		height: "30px",
+		marginTop: "20px",
+		marginLeft: "5px"
+	},
+	friends1: {
+		justifyContent: "left",
+	},
+	friend: {
+		width: "350px"
+	},
+	friendRequests: {
+		justifyContent: "space-between",
+		width: "100%"
+	},
+	header: {
+		width: "98%",
+		justifyContent: "left"
 	}
 
 }));

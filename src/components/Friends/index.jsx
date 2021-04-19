@@ -3,49 +3,10 @@ import { Typography, Container, Grid, Toolbar, TextField, Button, List, ListItem
 import { makeStyles, fade } from '@material-ui/core/styles'
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import useApplicationData from '../../hooks/useApplicationData';
+import EmojiPeopleIcon from '@material-ui/icons/EmojiPeople';
 
 const useStyles = makeStyles((theme) => ({
-  searchContainer: {
-    display: "flex",
-    backgroundColor: fade(theme.palette.common.white, 0.15),
-    paddingRight: "20px",
-    marginTop: "5px",
-    marginBottom: "5px",
-  },
-  searchIcon: {
-    alignSelf: "flex-end",
-		marginBottom: "5px",
-		marginRight: "5px"
-  },
-  searchInput: {
-    width: "200px",
-    margin: "5px",
-	},
-	submit: {
-		margin: "5px",
-		width: "50px",
-		height: "20px",
-		fontSize: "12px"
-	},
-	send: {
-		height: "30px",
-		marginTop: "20px",
-		marginLeft: "5px"
-	},
-	friends: {
-		justifyContent: "left",
-	},
-	friend: {
-		width: "350px"
-	},
-	friendRequests: {
-		justifyContent: "space-between",
-		width: "100%"
-	},
-	header: {
-		width: "98%",
-		justifyContent: "left"
-	}
+
 }));
 
 function Friends(props) {
@@ -57,7 +18,7 @@ function Friends(props) {
 		return (
 			<ListItem key={friend.friend_info.id} className={classes.friend} button>
 				<ListItemAvatar>
-					<Avatar className={classes.friends}
+					<Avatar className={classes.friends1}
 						alt={`Avatar n°${friend.friend_info.id}`}
 						src={friend.friend_info.avatar}
 					/>
@@ -78,8 +39,8 @@ function Friends(props) {
 					</ListItemAvatar>
 					<ListItemText id={friend.friend_info.id} primary={friend.friend_info.name} />
 				<div>
-					<Button color="primary" size="small" type="submit" onClick={() => {acceptFriendRequest(friend.friend_info)}} variant="contained" className={classes.submit} href={"/friends"}>Accept</Button>
-					<Button color="primary" size="small" type="submit" onClick={() => {declineFriendRequest(friend.friend_info)}} variant="contained" className={classes.submit} href={"/friends"}>Decline</Button>
+					<Button color="primary" size="small" type="submit" onClick={() => {acceptFriendRequest(friend.friend_info)}} variant="contained" className={classes.submit1} href={"/friends"}>Accept</Button>
+					<Button color="primary" size="small" type="submit" onClick={() => {declineFriendRequest(friend.friend_info)}} variant="contained" className={classes.submit1} href={"/friends"}>Decline</Button>
 				</div>
 				</ListItem>
 		);
@@ -88,7 +49,13 @@ function Friends(props) {
   return (
     <>
       <Container component="main" maxWidth="xs" >
-
+				<div className={classes.paper}>
+					<Avatar className={classes.icon}>
+            <EmojiPeopleIcon />
+          </Avatar>
+          <Typography component="h1" variant="h5">
+            Friends
+          </Typography>
         <Grid
           container
           spacing={0}
@@ -129,6 +96,7 @@ function Friends(props) {
             {friends}
           </List>
         </Grid> 
+				</div>
       </Container>
     </>
   );
