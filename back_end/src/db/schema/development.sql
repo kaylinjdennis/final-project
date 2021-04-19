@@ -1,9 +1,9 @@
 INSERT INTO users (name, email, password, avatar)
 VALUES 
-	('Jim Halpert', 'jim@gmail.com', 'scranton', 'https://i.imgur.com/LpaY82x.png'),
+	('Jim Halpert', 'jim@gmail.com', 'scranton', 'https://i.imgur.com/okB9WKC.jpg'),
 	('Dwight Schrute', 'dwight@gmail.com', 'beets', 'https://i.imgur.com/iHq8K8Z.jpg'),
 	('Michael Scott', 'michael@gmail.com', 'office', 'https://i.imgur.com/3tVgsra.jpg'),
-	('Pam', 'pam@gmail.com', 'jim', 'https://i.imgur.com/okB9WKC.jpg');
+	('Pam', 'pam@gmail.com', 'jim', 'https://i.imgur.com/LpaY82x.png');
 
 INSERT INTO groups (name) 
 VALUES
@@ -32,10 +32,10 @@ VALUES
 	(1, 3),
 	(3, 3);
 
-INSERT INTO friends (user_first_id, user_second_id)
+INSERT INTO friends (user_first_id, user_second_id, confirmed)
 VALUES
-	(1, 2),
-	(1, 3),
-	(3, 2),
-	(1, 4),
-	(2, 4);
+	(1, 2, true),
+	(1, 3, true),
+	(3, 2, true),
+	(1, 4, false),
+	(4, 2, false);

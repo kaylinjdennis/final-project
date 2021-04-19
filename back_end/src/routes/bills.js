@@ -105,8 +105,6 @@ module.exports = (db) => {
 		const billID = req.params.id;
 		const updatedValues = req.body;
 
-		console.log('includeSelf in route', updatedValues.include_self);
-
 		editBill(billID, updatedValues, db)
 			.then(res => editInvoice(res.invoice_id, updatedValues, db))
 			.then(bill => res.send(bill))
@@ -117,5 +115,3 @@ module.exports = (db) => {
 
 	return router;
 };
-
-

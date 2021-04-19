@@ -1,5 +1,6 @@
 const bcrypt = require('bcrypt');
 
+// Log in user
 const login = (email, password, db) => {
 	const query = `SELECT * FROM users WHERE email = $1`;
 	const value = [email || 'null'];
@@ -14,6 +15,7 @@ const login = (email, password, db) => {
 		.catch((err, res) => res.send(err))
 }
 
+// Create invoice for a new bill
 const createInvoice = (description, cost, date, userID, group_id, includeSelf, db) => {
 	const query =
 		`
@@ -38,11 +40,12 @@ const createInvoice = (description, cost, date, userID, group_id, includeSelf, d
 			return db.query(query, values)
 				.then(data => data.rows[0])
 				.catch(err => {
-					console.error('*****QUERY ERROR:\n', err.stack);
+					console.error('QUERY ERROR:\n', err.stack);
 				});
 		})
 }
 
+// Get members of a certain group
 const getGroupMembers = (group_id, db) => {
 	const query =
 		`
@@ -57,6 +60,7 @@ const getGroupMembers = (group_id, db) => {
 		});
 };
 
+// Create bill with given invoice
 const createBill = (payee_id, invoice_id, db) => {
 	const query =
 		`
@@ -73,6 +77,7 @@ const createBill = (payee_id, invoice_id, db) => {
 		});
 }
 
+// Create a new group
 const createGroup = (groupName, db) => {
 	const query =
 		`
@@ -89,6 +94,7 @@ const createGroup = (groupName, db) => {
 		});
 }
 
+// Add members to group in database
 const addMemberToGroup = (user_id, group_id, db) => {
 	const query =
 		`
@@ -105,6 +111,7 @@ const addMemberToGroup = (user_id, group_id, db) => {
 		});
 }
 
+// Delete specified bill from database
 const deleteBill = (billID, db) => {
 	const query = `DELETE FROM bills WHERE id = $1`;
 	const values = [billID]
@@ -116,6 +123,7 @@ const deleteBill = (billID, db) => {
 		});
 }
 
+// Edit bill, using specified values
 const editBill = (billID, updatedValues, db) => {
 	if (updatedValues.paid) {
 		let query = `UPDATE bills `;
@@ -129,7 +137,7 @@ const editBill = (billID, updatedValues, db) => {
 
 		return db.query(query, values)
 			.then(res => res.rows[0])
-			.catch(err => console.error('EDIT BILL QUERY ERROR:\n', err.stack));
+			.catch(err => console.error('QUERY ERROR:\n', err.stack));
 	} else {
 		return db.query(`SELECT * FROM bills WHERE id = $1`, [billID])
 			.then(res => res.rows[0])
@@ -139,6 +147,7 @@ const editBill = (billID, updatedValues, db) => {
 	}
 }
 
+// Edit invoice based on specified updated values
 const editInvoice = (invoice_id, updatedValues, db) => {
 	const query =
 		`
@@ -169,6 +178,7 @@ const editInvoice = (invoice_id, updatedValues, db) => {
 		})
 }
 
+// Get the proper user ID for an email address
 const findUserByEmail = (email, db) => {
 	const query = `SELECT id FROM users WHERE email = $1`;
 	const values = [email];
@@ -178,6 +188,7 @@ const findUserByEmail = (email, db) => {
 		.catch(err => console.error('QUERY ERROR:\n', err.stack));
 }
 
+// Check to see if there is already a row in the friends table for two users
 const inFriendsTable = (userID, friendID, db) => {
 	const query =
 		`
@@ -208,6 +219,7 @@ const inFriendsTable = (userID, friendID, db) => {
 		.catch(err => console.error('QUERY ERROR:\n', err.stack));
 }
 
+// Send friend request to specified user
 const sendFriendRequest = (userID, friendID, db) => {
 	const query =
 		`
@@ -229,6 +241,7 @@ const sendFriendRequest = (userID, friendID, db) => {
 		})
 }
 
+// Change friend request to confirmed
 const acceptFriendRequest = (userID, friendID, db) => {
 	const query =
 		`
@@ -244,6 +257,7 @@ const acceptFriendRequest = (userID, friendID, db) => {
 		.catch(err => console.error('QUERY ERROR:\n', err.stack));
 }
 
+// Delete a received friend request from the database
 const declineFriendRequest = (userID, friendID, db) => {
 	const query =
 		`
@@ -257,6 +271,7 @@ const declineFriendRequest = (userID, friendID, db) => {
 		.catch(err => console.error('QUERY ERROR:\n', err.stack));
 }
 
+// Get the current users info
 const getUserInfo = (userID, db) => {
 	const query =
 		`
@@ -270,6 +285,7 @@ const getUserInfo = (userID, db) => {
 		.catch(err => console.error('QUERY ERROR:\n', err.stack));
 }
 
+// Get all bills that the user has posted
 const getPostedBills = (userID, db) => {
 	const query =
 		`
@@ -284,6 +300,7 @@ const getPostedBills = (userID, db) => {
 		.catch(err => console.error('QUERY ERROR:\n', err.stack));
 }
 
+// Get all of the bills the user has recieved from others
 const getReceivedBills = (userID, db) => {
 	const query =
 		`
@@ -299,6 +316,7 @@ const getReceivedBills = (userID, db) => {
 		.catch(err => console.error('QUERY ERROR:\n', err.stack));
 }
 
+// Get the total amount of money that other users owe the current user
 const getTotalOwed = (userID, db) => {
 	let total = 0;
 	return getPostedBills(userID, db)
@@ -312,6 +330,7 @@ const getTotalOwed = (userID, db) => {
 		})
 }
 
+// Get the total amount of money that the user owes other users
 const getTotalDue = (userID, db) => {
 	let total = 0;
 	return getReceivedBills(userID, db)
@@ -325,6 +344,7 @@ const getTotalDue = (userID, db) => {
 		})
 }
 
+// Get all groups that the specified user is in
 const getUsersGroups = (userID, db) => {
 	const query =
 		`
