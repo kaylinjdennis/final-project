@@ -54,8 +54,9 @@ const data = [
 ];
 
 const groups = state.groups.map(group => {
+	const route = `/group/${group.id}`
 	return (
-		<MenuItem onClick={handleClose3} component={Link} to="/groups"> {group.name} </MenuItem>
+		<MenuItem onClick={handleClose3} component={Link} to={route}> {group.name} </MenuItem>
 	);
 });
 
@@ -147,7 +148,7 @@ return (
        
           <Grid container alignItems='flex-end' item xs={12} sm={12}>
             <Typography component="h1" variant="button">
-            <GroupIcon fontSize='large'/> Groups Part Of
+            <GroupIcon fontSize='large'/> Groups
             </Typography>
             <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick3}>
             <ArrowDropDownIcon fontSize='large'/>

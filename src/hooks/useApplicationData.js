@@ -8,6 +8,7 @@ export default function useApplicationData() {
 		user_id: undefined,
 		bills: { posted: [], received: [] },
 		groups: [],
+		group_members: [],
 		friends: [],
 		friend_requests: [],
 		profile_info: {}
@@ -15,8 +16,17 @@ export default function useApplicationData() {
 
 	useEffect(() => {
 		getUsersGroups()
-			.then((res) => {
-				setState(prev => ({ ...prev, groups: res }));
+			// .then((res) => {
+			// 	setState(prev => ({ ...prev, groups: res }));
+			// })
+			.then(res => {
+				console.log('res', res)
+				for (const group of res) {
+					getGroupMembers(group.id)
+						.then(data => {
+							setState(prev => ({ ...prev, groups: res, group_members: { ...prev.group_members, data } }));
+						})
+				}
 			})
 			.catch(err => {
 				console.log(err)
@@ -200,7 +210,6 @@ export default function useApplicationData() {
 	}
 
 	const editBill = (billID, cost, description, group_id, includeSelf) => {
-		// console.log('includeSelf', includeSelf)
 		return axios.post(`/api/bills/${billID}`, { "cost": cost, "description": String(description), "group_id": group_id, "include_self": includeSelf })
 			.then(res => res.data)
 	}
@@ -229,5 +238,10 @@ export default function useApplicationData() {
 		// })
 	}
 
-	return { state, setState, createBill, getUser, getUsersGroups, createGroup, sendFriendRequest, acceptFriendRequest, declineFriendRequest, getPostedBills, getReceivedBills, payBill, deleteBill, editBill };
+	const getGroupMembers = (groupID) => {
+		return axios.get(`/api/groups/${groupID}`)
+			.then(res => res.data)
+	}
+
+	return { state, setState, createBill, getUser, getUsersGroups, createGroup, sendFriendRequest, acceptFriendRequest, declineFriendRequest, getPostedBills, getReceivedBills, payBill, deleteBill, editBill, getGroupMembers };
 }
