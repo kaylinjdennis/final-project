@@ -102,6 +102,9 @@ const useStyles = makeStyles((theme) => ({
 	header: {
 		width: "98%",
 		justifyContent: "left"
+	},
+	frlist:{
+		marginLeft: 50
 	}
 
 }));
