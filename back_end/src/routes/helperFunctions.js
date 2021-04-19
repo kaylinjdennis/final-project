@@ -324,7 +324,7 @@ const getTotalOwed = (userID, db) => {
 		.then(res => {
 			for (const bill of res) {
 				if (!bill.paid) {
-					total += bill.cost;
+					total += Number(bill.cost);
 				}
 			}
 			return total;
@@ -338,7 +338,7 @@ const getTotalDue = (userID, db) => {
 		.then(res => {
 			for (const bill of res) {
 				if (!bill.paid) {
-					total += bill.cost;
+					total += Number(bill.cost);
 				}
 			}
 			return total;
