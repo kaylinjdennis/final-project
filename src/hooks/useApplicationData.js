@@ -16,11 +16,7 @@ export default function useApplicationData() {
 
 	useEffect(() => {
 		getUsersGroups()
-			// .then((res) => {
-			// 	setState(prev => ({ ...prev, groups: res }));
-			// })
 			.then(res => {
-				console.log('res', res)
 				for (const group of res) {
 					getGroupMembers(group.id)
 						.then(data => {

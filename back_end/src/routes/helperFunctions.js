@@ -359,6 +359,22 @@ const getUsersGroups = (userID, db) => {
 		.catch(err => console.error('QUERY ERROR:\n', err.stack));
 }
 
+// Get bill with specified id
+const getBill = (billID, db) => {
+	const query =
+		`
+		SELECT *
+		FROM bills
+		JOIN invoices ON invoice_id = invoices.id
+		WHERE bills.id = $1
+		`;
+	const values = [billID];
+
+	return db.query(query, values)
+		.then(res => (res.rows[0]))
+		.catch(err => console.error('QUERY ERROR:\n', err.stack));
+}
+
 
 module.exports = {
 	login,
@@ -379,5 +395,6 @@ module.exports = {
 	getReceivedBills,
 	getTotalOwed,
 	getTotalDue,
-	getUsersGroups
+	getUsersGroups,
+	getBill
 }
