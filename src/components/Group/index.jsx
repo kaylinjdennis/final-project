@@ -72,6 +72,8 @@ function Group(props) {
 				transform: 'translate(-50%, -50%)'
 				}}
 			> 
+				<br>
+				</br>
 				<Typography variant="h6" color="primary">
 					LOADING
 				</Typography>
@@ -92,7 +94,7 @@ function Group(props) {
         <Grid item xs={12}>
           <br />
         
-        <br />
+        	<br />
           </Grid> 
           <Typography variant="h4">Group: {group[0].name}</Typography>  
           <br />

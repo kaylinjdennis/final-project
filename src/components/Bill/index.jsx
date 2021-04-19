@@ -13,8 +13,6 @@ import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import useApplicationData from '../../hooks/useApplicationData';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import LinearProgress from '@material-ui/core/LinearProgress';
-import { spacing } from '@material-ui/system';
 
 
 const data = [
