@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React from "react";
 import { PieChart, Pie, Cell, Tooltip} from "recharts";
 import { Typography, Container} from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
@@ -119,11 +119,18 @@ function Bill(props) {
 
 const COLORS = ['#0088FE', '#00C49F'];
 const RADIAN = Math.PI / 180;
-const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, index }) => {
+const renderLabel = ({ 
+  cx, 
+  cy, 
+  midAngle, 
+  innerRadius, 
+  outerRadius, 
+  percent, 
+  index }) => {
   const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
   const x = cx + radius * Math.cos(-midAngle * RADIAN);
   const y = cy + radius * Math.sin(-midAngle * RADIAN);
-	console.log('*****', (percent * 100).toFixed(0) * bill[0].cost)
+  
   return (
     <text x={x} y={y} fill="white" textAnchor={x > cx ? 'start' : 'end'} dominantBaseline="central">
       {`$${percent * groupMembers.length * bill[0].cost}`}
@@ -281,27 +288,29 @@ const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, per
           </Grid>
 						<PieChart width={400} height={240} alignItems='flex-start'>
             	<Pie
+                label = {renderLabel}
+                isAnimationActive={false}
               	data={data}
               	cx={175}
               	cy={120}
               	labelLine={false}
-              	label={renderCustomizedLabel}
+              	
               	outerRadius={100}
               	fill="#8884d8"
 								dataKey="value"
 								nameKey="name"
 								interval={0}
-								isAnimationActive={false}
+								
             	>
               	{data.map((entry, index) => (
                 	<Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
               	))}
             	</Pie>
           	</PieChart>
-          <Grid container spacing={0} direction='row'>
+          <Grid container spacing={1} direction='row'>
             <Grid item xs={6} md={6} className={classes.billFriends} >
               <Box bgcolor='#0088FE'>
-              <Typography variant="button" >
+              <Typography variant="button" style={{ marginLeft: 10 }}>
                 Have Paid:
               </Typography>
               <div className={classes.demo}>
@@ -313,7 +322,7 @@ const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, per
             </Grid>
             <Grid item xs={6} className={classes.billFriends}>
               <Box bgcolor='#00C49F'>
-              <Typography variant="button" >
+              <Typography variant="button" style={{ marginLeft: 10 }} >
                 Have Not Paid:
               </Typography>
               <div className={classes.demo}>
