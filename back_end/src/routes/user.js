@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const { findUserByEmail, sendFriendRequest, acceptFriendRequest, getUserInfo, getTotalOwed, getTotalDue, getUsersGroups } = require('./helperFunctions');
+const { findUserByEmail, sendFriendRequest, acceptFriendRequest, declineFriendRequest, getUserInfo, getTotalOwed, getTotalDue, getUsersGroups } = require('./helperFunctions');
 
 module.exports = (db) => {
 
@@ -90,6 +90,13 @@ module.exports = (db) => {
 		} else if (type === 'accepting') {
 			const friendID = req.body.friend_info.id
 			acceptFriendRequest(Number(userID), friendID, db)
+				.then(data => res.send(data))
+				.catch(err => {
+					res.status(500).json({ error: err.message })
+				})
+		} else if (type === 'declining') {
+			const friendID = req.body.friend_info.id
+			declineFriendRequest(Number(userID), friendID, db)
 				.then(data => res.send(data))
 				.catch(err => {
 					res.status(500).json({ error: err.message })

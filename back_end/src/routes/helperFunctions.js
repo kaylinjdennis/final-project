@@ -69,7 +69,7 @@ const createBill = (payee_id, invoice_id, db) => {
 	db.query(query, values)
 		.then(res => res.rows[0])
 		.catch(err => {
-			console.error('QUERY ERROR:\n', err.stack);
+			console.error('CREATE BILL QUERY ERROR:\n', err.stack);
 		});
 }
 
@@ -117,44 +117,56 @@ const deleteBill = (billID, db) => {
 }
 
 const editBill = (billID, updatedValues, db) => {
-	let query = `UPDATE bills `;
-	const values = [];
-
 	if (updatedValues.paid) {
+		let query = `UPDATE bills `;
+		const values = [];
+
 		values.push(updatedValues.paid);
 		query += `SET paid = $1`;
+
+		values.push(billID);
+		query += ` WHERE id = $2 RETURNING *;`;
+
+		return db.query(query, values)
+			.then(res => res.rows[0])
+			.catch(err => console.error('EDIT BILL QUERY ERROR:\n', err.stack));
+	} else {
+		return db.query(`SELECT * FROM bills WHERE id = $1`, [billID])
+			.then(res => res.rows[0])
+			.catch(err => {
+				console.error('QUERY ERROR:\n', err.stack);
+			});
 	}
-
-	values.push(billID);
-	query += ` WHERE id = $2 RETURNING *;`;
-
-	return db.query(query, values)
-		.then(res => res.rows[0])
-		.catch(err => console.error('QUERY ERROR:\n', err.stack));
 }
 
 const editInvoice = (invoice_id, updatedValues, db) => {
-	let query = `UPDATE invoices `;
-	const values = [];
-	const propertiesToUpdate = ['description', 'cost'];
+	const query =
+		`
+		UPDATE invoices
+		SET description = $1, cost = $2
+		WHERE id = $3
+		RETURNING *;
+		`;
 
-	for (let property of propertiesToUpdate) {
-		if (updatedValues[property]) {
-			values.push(updatedValues[property]);
-			if (values.length > 1) {
-				query += `, ${property} = $${values.length}`;
-			} else {
-				query += `SET ${property} = $${values.length}`;
+	return getGroupMembers(updatedValues.group_id, db)
+		.then(res => res.length)
+		.then(res => {
+			if (!updatedValues.include_self) {
+				return res -= 1;
 			}
-		}
-	}
-
-	values.push(invoice_id);
-	query += ` WHERE id = $${values.length}  RETURNING *;`;
-
-	return db.query(query, values)
-		.then(res => res.rows[0])
-		.catch(err => console.error('QUERY ERROR:\n', err.stack));
+			return res;
+		})
+		.then(res => {
+			return (updatedValues.cost / res);
+		})
+		.then(res => {
+			const values = [updatedValues.description, res, invoice_id]
+			return db.query(query, values)
+				.then(data => data.rows[0])
+				.catch(err => {
+					console.error('*****QUERY ERROR:\n', err.stack);
+				});
+		})
 }
 
 const findUserByEmail = (email, db) => {
@@ -166,18 +178,55 @@ const findUserByEmail = (email, db) => {
 		.catch(err => console.error('QUERY ERROR:\n', err.stack));
 }
 
+const inFriendsTable = (userID, friendID, db) => {
+	const query =
+		`
+		SELECT * FROM friends 
+		WHERE user_first_id = $1 AND user_second_id = $2
+	`;
+	const values1 = [userID, friendID];
+	const values2 = [friendID, userID];
+
+	return db.query(query, values1)
+		.then(res => {
+			console.log('user,friend', res)
+			if (res.rows.length !== 0) {
+				console.log('returning TRUE')
+				return true;
+			}
+			return db.query(query, values2)
+				.then(res => {
+					console.log('friend,user', res)
+					if (res.rows.length !== 0) {
+						console.log('** returning TRUE')
+						return true;
+					}
+					console.log('returning FALSE')
+					return false;
+				})
+		})
+		.catch(err => console.error('QUERY ERROR:\n', err.stack));
+}
+
 const sendFriendRequest = (userID, friendID, db) => {
 	const query =
 		`
-	INSERT INTO friends (user_first_id, user_second_id)
-	VALUES ($1, $2)
-	RETURNING *;
+		INSERT INTO friends (user_first_id, user_second_id)
+		VALUES ($1, $2)
+		RETURNING *;
 	`;
 	const values = [userID, friendID];
 
-	return db.query(query, values)
-		.then(res => res.rows[0])
-		.catch(err => console.error('QUERY ERROR:\n', err.stack));
+	inFriendsTable(userID, friendID, db)
+		.then(res => {
+			if (!res) {
+				return db.query(query, values)
+					.then(res => res.rows[0])
+					.catch(err => console.error('QUERY ERROR:\n', err.stack));
+			} else {
+				return {};
+			}
+		})
 }
 
 const acceptFriendRequest = (userID, friendID, db) => {
@@ -187,6 +236,19 @@ const acceptFriendRequest = (userID, friendID, db) => {
 		SET confirmed = true
 		WHERE user_first_id = $1 AND user_second_id = $2
 		RETURNING *;
+		`;
+	const values = [friendID, userID];
+
+	return db.query(query, values)
+		.then(res => res.rows[0])
+		.catch(err => console.error('QUERY ERROR:\n', err.stack));
+}
+
+const declineFriendRequest = (userID, friendID, db) => {
+	const query =
+		`
+		DELETE FROM friends
+		WHERE user_first_id = $1 AND user_second_id = $2
 		`;
 	const values = [friendID, userID];
 
@@ -290,6 +352,7 @@ module.exports = {
 	editInvoice,
 	findUserByEmail,
 	sendFriendRequest,
+	declineFriendRequest,
 	acceptFriendRequest,
 	getUserInfo,
 	getPostedBills,

@@ -8,6 +8,7 @@ export default function useApplicationData() {
 		user_id: undefined,
 		bills: { posted: [], received: [] },
 		groups: [],
+		group_members: [],
 		friends: [],
 		friend_requests: [],
 		profile_info: {}
@@ -15,8 +16,17 @@ export default function useApplicationData() {
 
 	useEffect(() => {
 		getUsersGroups()
-			.then((res) => {
-				setState(prev => ({ ...prev, groups: res }));
+			// .then((res) => {
+			// 	setState(prev => ({ ...prev, groups: res }));
+			// })
+			.then(res => {
+				console.log('res', res)
+				for (const group of res) {
+					getGroupMembers(group.id)
+						.then(data => {
+							setState(prev => ({ ...prev, groups: res, group_members: { ...prev.group_members, data } }));
+						})
+				}
 			})
 			.catch(err => {
 				console.log(err)
@@ -179,8 +189,28 @@ export default function useApplicationData() {
 			})
 	}
 
+	const declineFriendRequest = (friendInfo) => {
+		return axios.post('/api/user/friends', { "friend_info": { "email": friendInfo.email, "id": friendInfo.id, "name": friendInfo.id, "avatar": friendInfo.avatar }, "type": "declining" })
+			.then(res => {
+				setState(prev => ({
+					...prev,
+					friend_requests: { ...prev.friend_requests, res }
+				}))
+			})
+	}
+
 	const payBill = (billID) => {
 		return axios.post(`/api/bills/${billID}`, { "paid": true })
+			.then(res => res.data)
+	}
+
+	const deleteBill = (billID) => {
+		return axios.delete(`/api/bills/${billID}`)
+			.then(res => res.data)
+	}
+
+	const editBill = (billID, cost, description, group_id, includeSelf) => {
+		return axios.post(`/api/bills/${billID}`, { "cost": cost, "description": String(description), "group_id": group_id, "include_self": includeSelf })
 			.then(res => res.data)
 	}
 
@@ -208,90 +238,10 @@ export default function useApplicationData() {
 		// })
 	}
 
-	return { state, setState, createBill, getUser, getUsersGroups, createGroup, sendFriendRequest, acceptFriendRequest, getPostedBills, getReceivedBills, payBill };
+	const getGroupMembers = (groupID) => {
+		return axios.get(`/api/groups/${groupID}`)
+			.then(res => res.data)
+	}
+
+	return { state, setState, createBill, getUser, getUsersGroups, createGroup, sendFriendRequest, acceptFriendRequest, declineFriendRequest, getPostedBills, getReceivedBills, payBill, deleteBill, editBill, getGroupMembers };
 }
-// export default function useApplicationData() {
-// 	const [state, setState] = useState({
-// 		day: 'Monday',
-// 		days: [],
-// 		appointments: {},
-// 		interviewers: {}
-// 	});
-
-// 	const setDay = day => setState({ ...state, day });
-
-// 	const updateSpots = (dayName, days, appointments) => {
-// 		const day = days.find((day) => day.name === dayName);
-// 		let spots = 0;
-// 		for (const id of day.appointments) {
-// 			const appointment = appointments[id];
-// 			if (!appointment.interview) {
-// 				spots++;
-// 			}
-// 		}
-// 		const newArray = days.map(item => {
-// 			if (item.name === dayName) {
-// 				return { ...item, spots }
-// 			}
-// 			return item;
-// 		});
-// 		return newArray;
-// 	};
-
-// 	useEffect(() => {
-// 		Promise.all([
-// 			axios.get('/api/days'),
-// 			axios.get('/api/appointments'),
-// 			axios.get('/api/interviewers')
-// 		]).then((all) => {
-// 			setState(prev => ({ ...prev, days: all[0].data, appointments: all[1].data, interviewers: all[2].data }));
-// 		});
-// 	}, []);
-
-// 	const bookInterview = (id, interview) => {
-// 		const appointment = {
-// 			...state.appointments[id],
-// 			interview: { ...interview }
-// 		};
-// 		const appointments = {
-// 			...state.appointments,
-// 			[id]: appointment
-// 		};
-// 		return axios.put(`/api/appointments/${id}`, appointment)
-// 			.then(
-// 				() => {
-// 					const days = updateSpots(state.day, state.days, appointments);
-// 					setState({
-// 						...state,
-// 						appointments,
-// 						days
-// 					});
-// 				}
-// 			);
-// 	};
-
-// 	const cancelInterview = (id) => {
-// 		const appointment = {
-// 			...state.appointments[id],
-// 			interview: null
-// 		};
-// 		const appointments = {
-// 			...state.appointments,
-// 			[id]: appointment
-// 		};
-// 		return (axios.delete(`/api/appointments/${id}`)
-// 			.then(
-// 				() => {
-// 					const days = updateSpots(state.day, state.days, appointments);
-// 					setState({
-// 						...state,
-// 						appointments,
-// 						days
-// 					});
-// 				}
-// 			)
-// 		);
-// 	};
-
-// 	return { state, setDay, bookInterview, cancelInterview };
-// }

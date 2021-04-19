@@ -19,22 +19,22 @@ function Home() {
 			style={{ minHeight: '90vh' }}
 		>
 			<Grid item xs={6}>
-				<Link to="/profile" >
+				<Link to="/profile" style={{ textDecoration: 'none' }} >
 					<Button variant="contained" color="primary" className={classes.button}>
 					Profile
 				</Button>
 				</Link>
-				<Link to="/addbill">
+				<Link to="/addbill" style={{ textDecoration: 'none' }}>
 				<Button variant="contained" color="primary" className={classes.button}>
 					New Bill
 				</Button>
 				</Link>
-				<Link to="/creategroup">
+				<Link to="/creategroup" style={{ textDecoration: 'none' }}>
 				<Button variant="contained" color="primary" className={classes.button}>
 					Create Group
 				</Button>
 				</Link>
-				<Link to="/friends">
+				<Link to="/friends" style={{ textDecoration: 'none' }}>
 				<Button variant="contained" color="primary" className={classes.button}>
 					Add Friends
 				</Button>

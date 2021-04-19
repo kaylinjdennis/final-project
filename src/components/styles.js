@@ -12,7 +12,11 @@ const useStyles = makeStyles((theme) => ({
 		// height: '10vh'
 		// maxWidth: "lg",
 		// minWidth: "sm"
-		flexGrow: '2'
+    flexGrow: '2',
+    maxWidth: '175px',
+    maxHeight: '165px',
+    minWidth: '175px',
+    minHeight: '165px'
 	},
 	paper: {
 		marginTop: theme.spacing(5),

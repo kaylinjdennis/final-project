@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const { createGroup, addMemberToGroup, getUsersGroups } = require('./helperFunctions');
+const { createGroup, addMemberToGroup, getUsersGroups, getGroupMembers } = require('./helperFunctions');
 
 module.exports = (db) => {
 
@@ -27,6 +27,15 @@ module.exports = (db) => {
 			})
 	})
 
+	router.get('/:id', (req, res) => {
+		const groupID = req.params.id;
+		getGroupMembers(groupID, db)
+			.then(data => res.send(data))
+			.catch(err => {
+				res.status(500).json({ error: err.message })
+			})
+	})
+
 	router.get('/', (req, res) => {
 		const userID = req.session.user_id;
 
@@ -36,8 +45,6 @@ module.exports = (db) => {
 				res.status(500).json({ error: err.message })
 			})
 	})
-
-
 
 	return router;
 }

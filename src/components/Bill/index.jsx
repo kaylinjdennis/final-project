@@ -35,7 +35,7 @@ const data = [
 function Bill(props) {
 	const billID = props.match.params.id;
 
-	const { state, payBill } = useApplicationData();
+	const { state, payBill, deleteBill } = useApplicationData();
 
 	const classes = useStyles();
   const [dense, setDense] = React.useState(false);
@@ -111,10 +111,6 @@ function Bill(props) {
 			);
 		})
 	}
-
-	console.log('bill:', bill)
-	console.log('paid', paidMembers);
-	console.log('owing', owingMembers)
 
 	data.pop()
 	data.pop()
@@ -280,7 +276,6 @@ const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, per
                 	<Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
               	))}
             	</Pie>
-							{/* <Tooltip /> */}
           	</PieChart>
           <Grid container spacing={0} direction='row'>
             <Grid item xs={6} md={6} className={classes.billFriends} >
@@ -309,6 +304,34 @@ const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, per
             </Grid>
           </Grid>
         </Grid> 
+				<br/>
+				<Grid container spacing={1} direction='row'>
+				<Grid item xs={6} md={6}>
+					<Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            color="primary"
+						className={classes.submit}
+						href={`/editBill/${bill[0].id}`}
+          >
+						Edit Bill
+          </Button>
+				</Grid>
+				<Grid item xs={6} md={6}>
+					<Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            color="primary"
+						className={classes.submit}
+						onClick={() => {deleteBill(bill[0].id)}}
+						href={"/profile"}
+          >
+						Delete Bill
+          </Button>
+				</Grid>
+				</Grid>
 				</div>
 				</Container>
 </>

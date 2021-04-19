@@ -8,6 +8,8 @@ import AddBill from './AddBill'
 import Friends from './Friends'
 import Profile from './Profile'
 import Bill from './Bill'
+import EditBill from './EditBill'
+import Group from './Group'
 
 function App() {
 
@@ -24,6 +26,8 @@ function App() {
 				<Route path='/creategroup' component={CreateGroup} />
 				<Route path='/friends' component={Friends} />
 				<Route path='/bill/:id' component={Bill} />
+				<Route path='/editBill/:id' component={EditBill} />
+				<Route path='/group/:id' component={Group} />
 				</Switch>
 		</BrowserRouter>
 		</>
