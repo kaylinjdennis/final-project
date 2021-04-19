@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const { createBill, getGroupMembers, createInvoice, deleteBill, editBill, editInvoice, getPostedBills, getReceivedBills } = require('./helperFunctions');
+const { createBill, getGroupMembers, createInvoice, deleteBill, editBill, editInvoice, getPostedBills, getReceivedBills, getBill } = require('./helperFunctions');
 
 module.exports = (db) => {
 
@@ -67,17 +67,8 @@ module.exports = (db) => {
 	// Get specified bill by id
 	router.get('/:id', (req, res) => {
 		const billID = req.params.id;
-		const query =
-			`
-			SELECT *
-			FROM bills
-			JOIN invoices ON invoice_id = invoices.id
-			WHERE bills.id = $1
-			`;
-		const values = [billID];
 
-		db.query(query, values)
-			.then(res => (res.rows[0]))
+		getBill(billID, db)
 			.then(bill => {
 				if (bill) {
 					res.send({ ...bill, id: Number(billID) });
@@ -105,8 +96,6 @@ module.exports = (db) => {
 		const billID = req.params.id;
 		const updatedValues = req.body;
 
-		console.log('includeSelf in route', updatedValues.include_self);
-
 		editBill(billID, updatedValues, db)
 			.then(res => editInvoice(res.invoice_id, updatedValues, db))
 			.then(bill => res.send(bill))
@@ -117,5 +106,3 @@ module.exports = (db) => {
 
 	return router;
 };
-
-

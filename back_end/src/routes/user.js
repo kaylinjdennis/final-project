@@ -75,6 +75,7 @@ module.exports = (db) => {
 		}
 	})
 
+	// Handle sending, accepting, and declineing friend requests
 	router.post('/friends', (req, res) => {
 		const type = req.body.type;
 		const userID = req.session.user_id;

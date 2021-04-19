@@ -5,6 +5,7 @@ const { createGroup, addMemberToGroup, getUsersGroups, getGroupMembers } = requi
 
 module.exports = (db) => {
 
+	// Add new group
 	router.post('/', (req, res) => {
 		const userID = req.session.user_id;
 		const groupName = req.body.name;
@@ -27,6 +28,7 @@ module.exports = (db) => {
 			})
 	})
 
+	// Get members belonging to specified group
 	router.get('/:id', (req, res) => {
 		const groupID = req.params.id;
 		getGroupMembers(groupID, db)
@@ -36,6 +38,7 @@ module.exports = (db) => {
 			})
 	})
 
+	// Get all groups that current user belongs to
 	router.get('/', (req, res) => {
 		const userID = req.session.user_id;
 
