@@ -64,7 +64,20 @@ Response
 Response
 
 ```json
-
+{
+  "info": {
+    "id": 1,
+    "name": "Jim Halpert",
+    "email": "jim@gmail.com",
+    "avatar": "https://i.imgur.com/okB9WKC.jpg"
+  },
+  "total_owed": 50,
+  "total_due": 72.66,
+  "groups": [
+    { "id": 1, "name": "Office" },
+    { "id": 3, "name": "Friends" }
+  ]
+}
 ```
 
 `GET /api/user/friends`
@@ -73,24 +86,35 @@ Response
 
 ```json
 {
-  "current_friends": [],
-  "requests_recieved": [
+  "current_friends": [
     {
-      "id": 2,
+      "id": 1,
       "friend_info": {
         "id": 2,
         "name": "Dwight Schrute",
-        "email": "dwight@gmail.com"
+        "email": "dwight@gmail.com",
+        "avatar": "https://i.imgur.com/iHq8K8Z.jpg"
       }
-    }
-  ],
-  "requests_sent": [
+    },
     {
-      "id": 3,
+      "id": 2,
       "friend_info": {
         "id": 3,
         "name": "Michael Scott",
-        "email": "michael@gmail.com"
+        "email": "michael@gmail.com",
+        "avatar": "https://i.imgur.com/3tVgsra.jpg"
+      }
+    }
+  ],
+  "requests_recieved": [],
+  "requests_sent": [
+    {
+      "id": 4,
+      "friend_info": {
+        "id": 4,
+        "name": "Pam",
+        "email": "pam@gmail.com",
+        "avatar": "https://i.imgur.com/LpaY82x.png"
       }
     }
   ]
@@ -98,12 +122,6 @@ Response
 ```
 
 `POST /api/user/friends`
-
-Response
-
-```json
-
-```
 
 ### Bills
 
@@ -165,8 +183,35 @@ Response
 }
 ```
 
+`POST /api/bills`
+
+`POST /api/bills/:billID`
+
 `DELETE /api/bills/:id`
 
 ### Groups
+
+`GET /api/groups`
+
+Response
+
+```json
+[
+  { "id": 1, "name": "Office" },
+  { "id": 3, "name": "Friends" }
+]
+```
+
+`GET /api/groups/:userID`
+
+Response
+
+```json
+[
+  { "id": 1, "user_id": 1, "group_id": 1 },
+  { "id": 2, "user_id": 2, "group_id": 1 },
+  { "id": 3, "user_id": 3, "group_id": 1 }
+]
+```
 
 `POST /api/groups`

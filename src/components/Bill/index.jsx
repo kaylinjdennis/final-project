@@ -74,7 +74,6 @@ function Bill(props) {
       const memberArr = state.friends.filter(
         (friend) => friend.friend_info.id === member
       );
-      console.log("memberObj", memberArr);
       return (
         <ListItem>
           <ListItemAvatar>
