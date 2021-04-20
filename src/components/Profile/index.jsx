@@ -64,12 +64,13 @@ function Profile(props) {
     },
   ];
 
+  console.log("graph data", data);
+
   const groups = state.groups.map((group) => {
     const route = `/group/${group.id}`;
     return (
       <MenuItem onClick={handleClose3} component={Link} to={route}>
-        {" "}
-        {group.name}{" "}
+        {group.name}
       </MenuItem>
     );
   });
@@ -81,8 +82,7 @@ function Profile(props) {
       billsInDropDown.push(bill.invoice_id);
       return (
         <MenuItem onClick={handleClose} component={Link} to={route}>
-          {" "}
-          {bill.description}{" "}
+          {bill.description}
         </MenuItem>
       );
     }
@@ -93,8 +93,7 @@ function Profile(props) {
       const route = `/bill/${bill.id}`;
       return (
         <MenuItem onClick={handleClose2} component={Link} to={route}>
-          {" "}
-          {bill.description}{" "}
+          {bill.description}
         </MenuItem>
       );
     }
