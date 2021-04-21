@@ -109,7 +109,7 @@ function Friends(props) {
                   <TextField
                     className={classes.searchInput}
                     onChange={(event) => setFriendEmail(event.target.value)}
-                    label="Search for a friend!"
+                    label="Send a friend request!"
                     variant="standard"
                   />
                   <Button
