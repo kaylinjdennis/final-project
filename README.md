@@ -37,11 +37,11 @@ A bill sharing app to calculate and keep track of bills split with friends. This
 
 ## Pictures of App
 
-<img src="https://github.com/suncraft/final-project/blob/master/photos/Screen%20Shot%202021-04-21%20at%202.40.07%20PM.png?raw=true" width="200"/>
-<img src="https://github.com/suncraft/final-project/blob/master/photos/Screen%20Shot%202021-04-21%20at%202.41.14%20PM.png?raw=true" width="200"/>
-<img src="https://github.com/suncraft/final-project/blob/master/photos/Screen%20Shot%202021-04-21%20at%202.40.31%20PM.png?raw=true" width="200"/>
-<img src="https://github.com/suncraft/final-project/blob/master/photos/Screen%20Shot%202021-04-21%20at%202.41.48%20PM.png?raw=true" width="200"/>
-<img src="https://github.com/suncraft/final-project/blob/master/photos/Screen%20Shot%202021-04-21%20at%202.41.59%20PM.png?raw=true" width="200"/>
+<img src="https://github.com/suncraft/final-project/blob/master/photos/Screen%20Shot%202021-04-21%20at%202.40.07%20PM.png?raw=true" width="250"/>
+<img src="https://github.com/suncraft/final-project/blob/master/photos/Screen%20Shot%202021-04-21%20at%202.41.14%20PM.png?raw=true" width="250"/>
+<img src="https://github.com/suncraft/final-project/blob/master/photos/Screen%20Shot%202021-04-21%20at%202.40.31%20PM.png?raw=true" width="250"/>
+<img src="https://github.com/suncraft/final-project/blob/master/photos/Screen%20Shot%202021-04-21%20at%202.41.48%20PM.png?raw=true" width="250"/>
+<img src="https://github.com/suncraft/final-project/blob/master/photos/Screen%20Shot%202021-04-21%20at%202.41.59%20PM.png?raw=true" width="250"/>
 
 ## Tech Stack
 
