@@ -31,11 +31,13 @@ A bill sharing app to calculate and keep track of bills split with friends. This
 
 ## Future Development
 
-- add some type of notifications when friend requests are received, bills are received, or bills have been paid
-- add functionality to actually pay bills through the app itself
-- show nearby users in friends page
+- Add some type of notifications when friend requests are received, bills are received, or bills have been paid
+- Add functionality to actually pay bills through the app itself
+- Show nearby users in friends page
 
 ## Pictures of App
+
+![]()
 
 ## Tech Stack
 
